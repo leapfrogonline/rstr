@@ -99,7 +99,7 @@ class Rstr(object):
             raise AttributeError(message)
 
     def rstr(self, alphabet, start_range=None,
-             end_range=None, include=[], exclude=[]):
+             end_range=None, include='', exclude=''):
         """Generate a random string containing elements from 'alphabet'
 
         By default, rstr() will return a string between 1 and 10 characters.
