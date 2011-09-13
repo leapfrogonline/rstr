@@ -31,9 +31,6 @@ import string
 import itertools
 from functools import partial
 
-def sample_wr(population, k):
-    """Samples k random elements (with replacement) from a population"""
-    return [random.choice(population) for i in itertools.repeat(None, k)]
 
 class Rstr(object):
     """Create random strings from a variety of alphabets.
@@ -98,13 +95,15 @@ class Rstr(object):
         if attr in self._alphabets:
             return partial(self.rstr, self._alphabets[attr])
         else:
-            raise AttributeError("Rstr instance has no attribute: {0}".format(attr))
+            message = "Rstr instance has no attribute: {0}".format(attr)
+            raise AttributeError(message)
 
-    def rstr(self, alphabet, start_range=None, end_range=None, include=[], exclude=[]):
+    def rstr(self, alphabet, start_range=None,
+             end_range=None, include=[], exclude=[]):
         """Generate a random string containing elements from 'alphabet'
 
-        By default, rstr() will return a string between 1 and 10 characters. You
-        can specify a second argument to get a specify an exact length of string.
+        By default, rstr() will return a string between 1 and 10 characters.
+        You can specify a second argument to get an exact length of string.
 
         If you want a string in a range of lengths, specify the start and end of
         that range as the second and third arguments.
@@ -130,3 +129,8 @@ class Rstr(object):
         result = sample_wr(popul, k) + list(include)
         random.shuffle(result)
         return ''.join(result)
+
+
+def sample_wr(population, k):
+    """Samples k random elements (with replacement) from a population"""
+    return [random.choice(population) for i in itertools.repeat(None, k)]
