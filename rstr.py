@@ -29,8 +29,24 @@
 import random
 import string
 import itertools
+from copy import copy
 from functools import partial
 
+ALPHABETS = {'printable': string.printable,
+              'letters': string.letters,
+              'uppercase': string.uppercase,
+              'lowercase': string.lowercase,
+              'digits': string.digits,
+              'punctuation': string.punctuation,
+              'nondigits': string.letters + string.punctuation,
+              'nonletters': string.digits + string.punctuation,
+              'whitespace': string.whitespace,
+              'nonwhitespace': string.printable.strip(),
+              'normal': string.letters + string.digits + ' ',
+              'postalsafe': string.letters + string.digits + ' .-#/',
+              'urlsafe': string.letters + string.digits + '-._~',
+              'domainsafe': string.letters + string.digits + '-'
+            }
 
 class Rstr(object):
     """Create random strings from a variety of alphabets.
@@ -63,24 +79,8 @@ class Rstr(object):
     consequently, in internet domains: letters, digits, and the hyphen.
 
     """
-
-    _alphabets = {'printable': string.printable,
-                  'letters': string.letters,
-                  'uppercase': string.uppercase,
-                  'lowercase': string.lowercase,
-                  'digits': string.digits,
-                  'punctuation': string.punctuation,
-                  'nondigits': string.letters + string.punctuation,
-                  'nonletters': string.digits + string.punctuation,
-                  'whitespace': string.whitespace,
-                  'nonwhitespace': string.printable.strip(),
-                  'normal': string.letters + string.digits + ' ',
-                  'postalsafe': string.letters + string.digits + ' .-#/',
-                  'urlsafe': string.letters + string.digits + '-._~',
-                  'domainsafe': string.letters + string.digits + '-'
-                }
-
     def __init__(self, **custom_alphabets):
+        self._alphabets = copy(ALPHABETS)
         for alpha_name, alphabet in custom_alphabets.items():
             self.add_alphabet(alpha_name, alphabet)
 
