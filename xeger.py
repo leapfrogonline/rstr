@@ -40,8 +40,7 @@ class Xeger(object):
 
         cases = {"literal": lambda x: unichr(x),
                  "at": lambda x: '',
-                 "in": lambda x: choice(list(chain(*(self.handle_state(i) for
-                                                     i in x)))),
+                 "in": lambda x: self.handle_in(x),
                  "any": lambda x: self.printable(1),
                  "range": lambda x: [unichr(i) for i in xrange(x[0], x[1]+1)],
                  "category": lambda x: categories[x](),
@@ -49,6 +48,7 @@ class Xeger(object):
                  "subpattern": lambda x: self.handle_state(x),
                  "integer": lambda x: ''.join(self.handle_state(i) for i in x),
                  'max_repeat': lambda x: self.repeat(*x),
+                 'negate': lambda x: [False],
                  None: lambda x: ''.join(self.handle_state(i) for i in choice(x))
                  }
 
@@ -57,7 +57,14 @@ class Xeger(object):
 
         return cases[opcode](value)
 
-    #def handle_in(self, value):
+    def handle_in(self, value):
+        candidates = list(chain(*(self.handle_state(i) for
+                                                     i in value)))
+        if candidates[0] is False:
+            candidates = set(string.printable).difference(candidates[1:])
+            return choice(list(candidates))
+        else:
+            return choice(candidates)
 
     def repeat(self, start_range, end_range, value):
         result = []
