@@ -31,6 +31,8 @@ import string
 import itertools
 from copy import copy
 from functools import partial
+from xeger import Xeger
+
 
 ALPHABETS = {'printable': string.printable,
               'letters': string.letters,
@@ -43,12 +45,16 @@ ALPHABETS = {'printable': string.printable,
               'whitespace': string.whitespace,
               'nonwhitespace': string.printable.strip(),
               'normal': string.letters + string.digits + ' ',
+              'word': string.letters + string.digits + '_',
+              'nonword': ''.join(set(string.printable).difference(string.letters +
+                                                          string.digits + '_')),
               'postalsafe': string.letters + string.digits + ' .-#/',
               'urlsafe': string.letters + string.digits + '-._~',
               'domainsafe': string.letters + string.digits + '-'
             }
 
-class Rstr(object):
+
+class RstrBase(object):
     """Create random strings from a variety of alphabets.
 
     The alphabets for printable(), uppercase(), lowercase(), digits(), and
@@ -129,6 +135,10 @@ class Rstr(object):
         result = sample_wr(popul, k) + list(include)
         random.shuffle(result)
         return ''.join(result)
+
+
+class Rstr(RstrBase, Xeger):
+    pass
 
 
 def sample_wr(population, k):
