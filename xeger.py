@@ -12,8 +12,13 @@ from itertools import chain
 STAR_PLUS_LIMIT = 100
 
 class Xeger(object):
+    """Inspired by the Java library Xeger: http://code.google.com/p/xeger/
+    This class adds functionality to Rstr allowing users to generate a
+    semi-random string from a regular expression."""
+
     def __init__(self):
         super(Xeger, self).__init__()
+        self._cache = dict()
         self._categories = {
         'category_digit': lambda: self._alphabets['digits'],
         'category_not_digit': lambda: self._alphabets['nondigits'],
@@ -27,16 +32,18 @@ class Xeger(object):
              "not_literal": lambda x: choice(
                                 string.printable.replace(unichr(x), '')),
              "at": lambda x: '',
-             "in": lambda x: self.handle_in(x),
+             "in": lambda x: self._handle_in(x),
              "any": lambda x: self.printable(1),
              "range": lambda x: [unichr(i) for i in xrange(x[0], x[1]+1)],
              "category": lambda x: self._categories[x](),
-             'branch': lambda x: ''.join(self.handle_state(i) for i in choice(x[1])),
-             "subpattern": lambda x: ''.join(self.handle_state(i) for i in x[1]),
-             #"integer": lambda x: ''.join(self.handle_state(i) for i in x),
-             'max_repeat': lambda x: self.repeat(*x),
+             'branch': lambda x: ''.join(self._handle_state(i) for
+                                                            i in choice(x[1])),
+             "subpattern": lambda x: self._handle_group(x),
+             "assert": lambda x: ''.join(self._handle_state(i) for i in x[1]),
+             "assert_not": lambda x: '',
+             "groupref": lambda x: self._cache[x],
+             'max_repeat': lambda x: self._handle_repeat(*x),
              'negate': lambda x: [False],
-             #None: lambda x: ''.join(self.handle_state(i) for i in choice(x))
              }
 
     def xeger(self, string_or_regex):
@@ -46,22 +53,28 @@ class Xeger(object):
             pattern = string_or_regex
 
         parsed = re.sre_parse.parse(pattern)
-        return self.build_string(parsed)
+        result = self._build_string(parsed)
+        self._cache.clear()
+        return result
 
-    def build_string(self, parsed):
+    def _build_string(self, parsed):
         newstr = []
         for state in parsed:
-            newstr.append(self.handle_state(state))
+            newstr.append(self._handle_state(state))
         return ''.join(newstr)
 
-    def handle_state(self, state):
+    def _handle_state(self, state):
         opcode, value = state
-        opcode = self.get_opcode(opcode)
-
         return self._cases[opcode](value)
 
-    def handle_in(self, value):
-        candidates = list(chain(*(self.handle_state(i) for
+    def _handle_group(self, value):
+        result = ''.join(self._handle_state(i) for i in value[1])
+        if value[0]:
+            self._cache[value[0]] = result
+        return result
+
+    def _handle_in(self, value):
+        candidates = list(chain(*(self._handle_state(i) for
                                                      i in value)))
         if candidates[0] is False:
             candidates = set(string.printable).difference(candidates[1:])
@@ -69,19 +82,10 @@ class Xeger(object):
         else:
             return choice(candidates)
 
-    def repeat(self, start_range, end_range, value):
+    def _handle_repeat(self, start_range, end_range, value):
         result = []
         end_range = min((end_range, STAR_PLUS_LIMIT))
         times = randint(start_range, end_range)
         for i in xrange(times):
-            result.append(''.join(self.handle_state(i) for i in value))
+            result.append(''.join(self._handle_state(i) for i in value))
         return ''.join(result)
-
-    def get_opcode(self, opcode):
-        try:
-            int(opcode)
-        except (ValueError, TypeError):
-            pass
-        else:
-            opcode = "integer"
-        return opcode
