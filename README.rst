@@ -69,7 +69,7 @@ accept lists or tuples of strings:
 Other methods
 -------------
 
-The other methods provided by the rstr module, besides ``rstr()``, are convenience
+The other methods provided by rstr, besides ``rstr()`` and ``xeger()``, are convenience
 methods that can be called without arguments, and provide a pre-defined alphabet.
 They accept the same arguments as ``rstr()`` for purposes of
 specifying lengths and including or excluding particular characters.
@@ -121,6 +121,22 @@ domainsafe()
     Characters that are allowed for use in hostnames, and consequently, in internet domains: letters,
     digits, and the hyphen.
 
+Xeger
+-----
+
+Inspired by the Java library of the same name, the ``xeger()`` method allows users to
+create a random string from a regular expression.
+
+For example to generate a postal code that fits the Canadian format:
+
+    >>> from rstr import Rstr
+    >>> rs = Rstr()
+    >>> rs.xeger(r'[A-Z]\d[A-Z] \d[A-Z]\d')
+    u'R6M 1W5'
+
+xeger works fine with most simple regular expressions, but it doesn't support all
+Python regular expression features.
+
 Custom Alphabets
 ----------------
 
@@ -168,11 +184,11 @@ A postal address:
     """{0} {1}
     {2} {3}
     {4}, {5} {6}
-    """.format(rs.lowercase(4, 8).title(),
-               rs.lowercase(4, 8).title(),
+    """.format(rs.letters(4, 8).title(),
+               rs.letters(4, 8).title(),
                rs.digits(3, 5),
-               rs.lowercase(4, 10).title(),
-               rs.lowercase(4, 15).title(),
+               rs.letters(4, 10).title(),
+               rs.letters(4, 15).title(),
                rs.uppercase(2),
                rs.digits(5),
                )
