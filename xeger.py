@@ -12,6 +12,32 @@ from itertools import chain
 STAR_PLUS_LIMIT = 100
 
 class Xeger(object):
+    def __init__(self):
+        super(Xeger, self).__init__()
+        self._categories = {
+        'category_digit': lambda: self._alphabets['digits'],
+        'category_not_digit': lambda: self._alphabets['nondigits'],
+        "category_space": lambda: self._alphabets['whitespace'],
+        "category_not_space": lambda: self._alphabets['nonwhitespace'],
+        "category_word": lambda: self._alphabets['word'],
+        "category_not_word": lambda: self._alphabets['nonword'],
+                  }
+
+        self._cases = {"literal": lambda x: unichr(x),
+             "not_literal": lambda x: choice(
+                                string.printable.replace(unichr(x), '')),
+             "at": lambda x: '',
+             "in": lambda x: self.handle_in(x),
+             "any": lambda x: self.printable(1),
+             "range": lambda x: [unichr(i) for i in xrange(x[0], x[1]+1)],
+             "category": lambda x: self._categories[x](),
+             'branch': lambda x: ''.join(self.handle_state(i) for i in choice(x[1])),
+             "subpattern": lambda x: ''.join(self.handle_state(i) for i in x[1]),
+             #"integer": lambda x: ''.join(self.handle_state(i) for i in x),
+             'max_repeat': lambda x: self.repeat(*x),
+             'negate': lambda x: [False],
+             #None: lambda x: ''.join(self.handle_state(i) for i in choice(x))
+             }
 
     def xeger(self, string_or_regex):
         try:
@@ -29,33 +55,10 @@ class Xeger(object):
         return ''.join(newstr)
 
     def handle_state(self, state):
-        categories = {
-            'category_digit': lambda: self.digits(1),
-            'category_not_digit': lambda: self.nondigits(1),
-            "category_space": lambda: self.whitespace(1),
-            "category_not_space": lambda: self.nonwhitespace(1),
-            "category_word": lambda: self.word(1),
-            "category_not_word": lambda: self.nonword(1),
-                      }
-
-        cases = {"literal": lambda x: unichr(x),
-                 "at": lambda x: '',
-                 "in": lambda x: self.handle_in(x),
-                 "any": lambda x: self.printable(1),
-                 "range": lambda x: [unichr(i) for i in xrange(x[0], x[1]+1)],
-                 "category": lambda x: categories[x](),
-                 'branch': lambda x: self.handle_state(x),
-                 "subpattern": lambda x: self.handle_state(x),
-                 "integer": lambda x: ''.join(self.handle_state(i) for i in x),
-                 'max_repeat': lambda x: self.repeat(*x),
-                 'negate': lambda x: [False],
-                 None: lambda x: ''.join(self.handle_state(i) for i in choice(x))
-                 }
-
         opcode, value = state
         opcode = self.get_opcode(opcode)
 
-        return cases[opcode](value)
+        return self._cases[opcode](value)
 
     def handle_in(self, value):
         candidates = list(chain(*(self.handle_state(i) for
