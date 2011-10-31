@@ -86,6 +86,7 @@ class RstrBase(object):
 
     """
     def __init__(self, **custom_alphabets):
+        super(RstrBase, self).__init__()
         self._alphabets = copy(ALPHABETS)
         for alpha_name, alphabet in custom_alphabets.items():
             self.add_alphabet(alpha_name, alphabet)
@@ -138,7 +139,8 @@ class RstrBase(object):
 
 
 class Rstr(RstrBase, Xeger):
-    pass
+    def init(self, **alphabets):
+        super(Rstr, self).__init__(**alphabets)
 
 
 def sample_wr(population, k):
