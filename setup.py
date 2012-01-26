@@ -1,4 +1,5 @@
 from setuptools import setup
+import unittest
 
 setup(name='rstr',
       version='2.0',
@@ -6,6 +7,6 @@ setup(name='rstr',
       author='Leapfrog Direct Response LLC',
       author_email='oss@leapfrogdevelopment.com',
       url='http://bitbucket.org/leapfrogdevelopment/rstr/overview',
-      py_modules=['rstr'],
-      test_suite='tests',
+      packages=['rstr'],
+      test_suite='rstr.tests.suite',
      )

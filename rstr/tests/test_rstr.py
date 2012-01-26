@@ -1,8 +1,7 @@
 import re
 import unittest
 
-from rstr import Rstr
-
+from rstr.rstr_base import Rstr
 
 class TestRstr(unittest.TestCase):
     def setUp(self):
@@ -90,6 +89,8 @@ class TestCustomAlphabets(unittest.TestCase):
         rs.add_alphabet('evens', '02468')
         assert re.match('^[02468]{1,10}$', rs.evens())
 
+def main():
+    unittest.main()
 
 if __name__ == '__main__':
-    unittest.main()
+    main()
