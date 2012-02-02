@@ -163,8 +163,8 @@ An email address:
 ::
 
     '{0}@{1}.{2}'.format(rstr.nonwhitespace(exclude='@'),
-                         rs.domainsafe()
-                         rs.letters(3))
+                         rstr.domainsafe()
+                         rstr.letters(3))
 
 A URL:
 
