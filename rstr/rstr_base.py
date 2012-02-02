@@ -142,6 +142,7 @@ class Rstr(RstrBase, Xeger):
     def init(self, **alphabets):
         super(Rstr, self).__init__(**alphabets)
 
+default_instance = Rstr()
 
 def sample_wr(population, k):
     """Samples k random elements (with replacement) from a population"""
