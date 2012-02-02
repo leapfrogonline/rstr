@@ -17,9 +17,8 @@ an alphabet of characters from which to create a string.
 
 ::
 
-    >>> from rstr import Rstr
-    >>> rs = Rstr()
-    >>> rs.rstr('ABC')
+    >>> import rstr
+    >>> rstr.rstr('ABC')
     'AACAACCB'
 
 By default, it will return a string between 1 and 10 characters in length. You
@@ -27,7 +26,7 @@ may specify an exact length by including it as a second argument:
 
 ::
 
-    >>> rs.rstr('ABC', 4)
+    >>> rstr.rstr('ABC', 4)
     'ACBC'
 
 You can also generate a range of lengths by adding two arguments. In the following
@@ -36,7 +35,7 @@ characters.
 
 ::
 
-    >>> rs.rstr('ABC', 5, 10)
+    >>> rstr.rstr('ABC', 5, 10)
     'CBCCCABAA'
 
 It's also possible to include particular characters in your string. This is useful
@@ -46,7 +45,7 @@ in the resulting string.
 
 ::
 
-    >>> rs.rstr('ABC', include='&')
+    >>> rstr.rstr('ABC', include='&')
     'CA&A'
 
 Conversely, you can exclude particular characters from the generated string. This is
@@ -55,7 +54,7 @@ helpful when starting with a pre-defined population of characters.
 ::
 
     >>> import string
-    >>> rs.rstr(string.digits, exclude='5')
+    >>> rstr.rstr(string.digits, exclude='5')
     '8661442'
 
 Note that any of the arguments that accept strings can also
@@ -63,7 +62,7 @@ accept lists or tuples of strings:
 
 ::
 
-    >>> rs.rstr(['A', 'B', 'C'], include = ['@'], exclude=('C',))
+    >>> rstr.rstr(['A', 'B', 'C'], include = ['@'], exclude=('C',))
     'BAAABBA@BAA'
 
 Other methods
@@ -129,9 +128,8 @@ create a random string from a regular expression.
 
 For example to generate a postal code that fits the Canadian format:
 
-    >>> from rstr import Rstr
-    >>> rs = Rstr()
-    >>> rs.xeger(r'[A-Z]\d[A-Z] \d[A-Z]\d')
+    >>> import rstr
+    >>> rstr.xeger(r'[A-Z]\d[A-Z] \d[A-Z]\d')
     u'R6M 1W5'
 
 xeger works fine with most simple regular expressions, but it doesn't support all
@@ -141,7 +139,7 @@ Custom Alphabets
 ----------------
 
 If you have custom alphabets of characters that you would like to use with a method
-shortcut, you can specify them by keyword when instantiating Rstr:
+shortcut, you can specify them by keyword when instantiating an Rstr object:
 
     >>> from rstr import Rstr
     >>> rs = Rstr(vowels='AEIOU')
@@ -164,7 +162,7 @@ An email address:
 
 ::
 
-    '{0}@{1}.{2}'.format(rs.nonwhitespace(exclude='@'),
+    '{0}@{1}.{2}'.format(rstr.nonwhitespace(exclude='@'),
                          rs.domainsafe()
                          rs.letters(3))
 
@@ -172,10 +170,10 @@ A URL:
 
 ::
 
-    'http://{0}.{1}/{2}/?{3}'.format(rs.domainsafe(),
-                                    rs.letters(3),
-                                    rs.urlsafe(),
-                                    rs.urlsafe())
+    'http://{0}.{1}/{2}/?{3}'.format(rstr.domainsafe(),
+                                    rstr.letters(3),
+                                    rstr.urlsafe(),
+                                    rstr.urlsafe())
 
 A postal address:
 
@@ -184,11 +182,11 @@ A postal address:
     """{0} {1}
     {2} {3}
     {4}, {5} {6}
-    """.format(rs.letters(4, 8).title(),
-               rs.letters(4, 8).title(),
-               rs.digits(3, 5),
-               rs.letters(4, 10).title(),
-               rs.letters(4, 15).title(),
-               rs.uppercase(2),
-               rs.digits(5),
+    """.format(rstr.letters(4, 8).title(),
+               rstr.letters(4, 8).title(),
+               rstr.digits(3, 5),
+               rstr.letters(4, 10).title(),
+               rstr.letters(4, 15).title(),
+               rstr.uppercase(2),
+               rstr.digits(5),
                )
