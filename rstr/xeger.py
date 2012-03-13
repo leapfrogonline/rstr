@@ -20,12 +20,12 @@ class Xeger(object):
         super(Xeger, self).__init__()
         self._cache = dict()
         self._categories = {
-        'category_digit': lambda: self._alphabets['digits'],
-        'category_not_digit': lambda: self._alphabets['nondigits'],
-        "category_space": lambda: self._alphabets['whitespace'],
-        "category_not_space": lambda: self._alphabets['nonwhitespace'],
-        "category_word": lambda: self._alphabets['word'],
-        "category_not_word": lambda: self._alphabets['nonword'],
+            "category_digit": lambda: self._alphabets['digits'],
+            "category_not_digit": lambda: self._alphabets['nondigits'],
+            "category_space": lambda: self._alphabets['whitespace'],
+            "category_not_space": lambda: self._alphabets['nonwhitespace'],
+            "category_word": lambda: self._alphabets['word'],
+            "category_not_word": lambda: self._alphabets['nonword'],
                   }
 
         self._cases = {"literal": lambda x: unichr(x),

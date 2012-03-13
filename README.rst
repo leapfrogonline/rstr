@@ -9,6 +9,14 @@ applications.
 It has no dependencies outside the standard library, and should be compatible
 with Python 3.
 
+A Word of Caution
+-----------------
+
+rstr uses the Python ``random`` module internally to generate psuedorandom text.
+
+**This library is not suitable for password-generation or other cryptographic
+applications.**
+
 Use
 ---
 
