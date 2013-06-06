@@ -31,26 +31,27 @@ import string
 import itertools
 from copy import copy
 from functools import partial
-from xeger import Xeger
+from rstr.xeger import Xeger
+import sys
 
 
 ALPHABETS = {'printable': string.printable,
-              'letters': string.letters,
-              'uppercase': string.uppercase,
-              'lowercase': string.lowercase,
+              'letters': string.ascii_letters,
+              'uppercase': string.ascii_uppercase,
+              'lowercase': string.ascii_lowercase,
               'digits': string.digits,
               'punctuation': string.punctuation,
-              'nondigits': string.letters + string.punctuation,
+              'nondigits': string.ascii_letters + string.punctuation,
               'nonletters': string.digits + string.punctuation,
               'whitespace': string.whitespace,
               'nonwhitespace': string.printable.strip(),
-              'normal': string.letters + string.digits + ' ',
-              'word': string.letters + string.digits + '_',
-              'nonword': ''.join(set(string.printable).difference(string.letters +
+              'normal': string.ascii_letters + string.digits + ' ',
+              'word': string.ascii_letters + string.digits + '_',
+              'nonword': ''.join(set(string.printable).difference(string.ascii_letters +
                                                           string.digits + '_')),
-              'postalsafe': string.letters + string.digits + ' .-#/',
-              'urlsafe': string.letters + string.digits + '-._~',
-              'domainsafe': string.letters + string.digits + '-'
+              'postalsafe': string.ascii_letters + string.digits + ' .-#/',
+              'urlsafe': string.ascii_letters + string.digits + '-._~',
+              'domainsafe': string.ascii_letters + string.digits + '-'
             }
 
 
