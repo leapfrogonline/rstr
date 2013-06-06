@@ -2,6 +2,12 @@ import re
 import string
 from random import choice, randint
 from itertools import chain
+import sys
+
+
+if sys.version_info[0] >= 3:
+    unichr = chr
+    xrange = range
 
 #The * and + characters in a regular expression
 # match up to any number of repeats in theory,
