@@ -3,6 +3,7 @@ import re
 
 import rstr
 
+
 class TestPackageLevelFunctions(unittest.TestCase):
 
     def test_rstr(self):

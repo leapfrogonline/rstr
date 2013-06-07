@@ -3,6 +3,7 @@ import rstr.tests.test_rstr
 import rstr.tests.test_xeger
 import rstr.tests.test_package_level_access
 
+
 def suite():
     loader = unittest.TestLoader()
     suite = loader.loadTestsFromModule(test_rstr)
