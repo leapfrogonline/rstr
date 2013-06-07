@@ -32,26 +32,25 @@ import itertools
 from copy import copy
 from functools import partial
 from rstr.xeger import Xeger
-import sys
 
 
 ALPHABETS = {'printable': string.printable,
-              'letters': string.ascii_letters,
-              'uppercase': string.ascii_uppercase,
-              'lowercase': string.ascii_lowercase,
-              'digits': string.digits,
-              'punctuation': string.punctuation,
-              'nondigits': string.ascii_letters + string.punctuation,
-              'nonletters': string.digits + string.punctuation,
-              'whitespace': string.whitespace,
-              'nonwhitespace': string.printable.strip(),
-              'normal': string.ascii_letters + string.digits + ' ',
-              'word': string.ascii_letters + string.digits + '_',
-              'nonword': ''.join(set(string.printable).difference(string.ascii_letters +
-                                                          string.digits + '_')),
-              'postalsafe': string.ascii_letters + string.digits + ' .-#/',
-              'urlsafe': string.ascii_letters + string.digits + '-._~',
-              'domainsafe': string.ascii_letters + string.digits + '-'
+             'letters': string.ascii_letters,
+             'uppercase': string.ascii_uppercase,
+             'lowercase': string.ascii_lowercase,
+             'digits': string.digits,
+             'punctuation': string.punctuation,
+             'nondigits': string.ascii_letters + string.punctuation,
+             'nonletters': string.digits + string.punctuation,
+             'whitespace': string.whitespace,
+             'nonwhitespace': string.printable.strip(),
+             'normal': string.ascii_letters + string.digits + ' ',
+             'word': string.ascii_letters + string.digits + '_',
+             'nonword': ''.join(set(string.printable).difference(string.ascii_letters +
+                                                                 string.digits + '_')),
+             'postalsafe': string.ascii_letters + string.digits + ' .-#/',
+             'urlsafe': string.ascii_letters + string.digits + '-._~',
+             'domainsafe': string.ascii_letters + string.digits + '-'
             }
 
 
