@@ -46,8 +46,9 @@ ALPHABETS = {'printable': string.printable,
              'nonwhitespace': string.printable.strip(),
              'normal': string.ascii_letters + string.digits + ' ',
              'word': string.ascii_letters + string.digits + '_',
-             'nonword': ''.join(set(string.printable).difference(string.ascii_letters +
-                                                                 string.digits + '_')),
+             'nonword': ''.join(set(string.printable)
+                                .difference(string.ascii_letters +
+                                            string.digits + '_')),
              'postalsafe': string.ascii_letters + string.digits + ' .-#/',
              'urlsafe': string.ascii_letters + string.digits + '-._~',
              'domainsafe': string.ascii_letters + string.digits + '-'
@@ -78,8 +79,8 @@ class RstrBase(object):
     urlsafe() uses an alphabet of unreserved characters safe for use in URLs.
     From section 2.3 of RFC 3986: "Characters that are allowed in a URI but
     do not have a reserved purpose are called unreserved. These include
-    uppercase and lowercase letters, decimal digits, hyphen, period, underscore,
-    and tilde.
+    uppercase and lowercase letters, decimal digits, hyphen, period,
+    underscore, and tilde.
 
     domainsafe() uses an alphabet of characters allowed in hostnames, and
     consequently, in internet domains: letters, digits, and the hyphen.
@@ -112,14 +113,14 @@ class RstrBase(object):
         By default, rstr() will return a string between 1 and 10 characters.
         You can specify a second argument to get an exact length of string.
 
-        If you want a string in a range of lengths, specify the start and end of
-        that range as the second and third arguments.
+        If you want a string in a range of lengths, specify the start and end
+        of that range as the second and third arguments.
 
         If you want to make certain that particular characters appear in the
         generated string, specify them as "include".
 
-        If you want to *prevent* certain characters from appearing, pass them as
-        'exclude'.
+        If you want to *prevent* certain characters from appearing, pass them
+        as 'exclude'.
 
         """
         popul = [char for char in list(alphabet) if char not in list(exclude)]
@@ -143,6 +144,7 @@ class Rstr(RstrBase, Xeger):
         super(Rstr, self).__init__(**alphabets)
 
 default_instance = Rstr()
+
 
 def sample_wr(population, k):
     """Samples k random elements (with replacement) from a population"""

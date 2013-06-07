@@ -8,6 +8,7 @@ if sys.version_info[0] >= 3:
     unichr = chr
     xrange = range
 
+
 class TestRstr(unittest.TestCase):
     def setUp(self):
         self.rs = Rstr()
@@ -94,8 +95,10 @@ class TestCustomAlphabets(unittest.TestCase):
         rs.add_alphabet('evens', '02468')
         assert re.match('^[02468]{1,10}$', rs.evens())
 
+
 def main():
     unittest.main()
+
 
 if __name__ == '__main__':
     main()

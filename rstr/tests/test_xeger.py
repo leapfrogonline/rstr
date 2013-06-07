@@ -3,6 +3,7 @@ import unittest
 
 from rstr.rstr_base import Rstr
 
+
 class TestXeger(unittest.TestCase):
     def setUp(self):
         self.rs = Rstr()
