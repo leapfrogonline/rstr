@@ -49,6 +49,7 @@ class Xeger(object):
              "assert": lambda x: ''.join(self._handle_state(i) for i in x[1]),
              "assert_not": lambda x: '',
              "groupref": lambda x: self._cache[x],
+             'min_repeat': lambda x: self._handle_repeat(*x),
              'max_repeat': lambda x: self._handle_repeat(*x),
              'negate': lambda x: [False],
              }

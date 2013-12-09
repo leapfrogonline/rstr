@@ -79,3 +79,11 @@ class TestXeger(unittest.TestCase):
     def test_backreference(self):
         pattern = r'(foo|bar)baz\1'
         assert re.match(pattern, self.rs.xeger(pattern))
+
+    def test_zero_or_more_greedy(self):
+        pattern = r'a*'
+        assert re.match(pattern, self.rs.xeger(pattern))
+
+    def test_zero_or_more_non_greedy(self):
+        pattern = r'a*?'
+        assert re.match(pattern, self.rs.xeger(pattern))
