@@ -1,6 +1,5 @@
 import re
 import string
-from random import choice, randint
 from itertools import chain
 import sys
 
@@ -36,7 +35,7 @@ class Xeger(object):
                   }
 
         self._cases = {"literal": lambda x: unichr(x),
-             "not_literal": lambda x: choice(
+             "not_literal": lambda x: self._random.choice(
                                 string.printable.replace(unichr(x), '')),
              "at": lambda x: '',
              "in": lambda x: self._handle_in(x),
@@ -44,7 +43,7 @@ class Xeger(object):
              "range": lambda x: [unichr(i) for i in xrange(x[0], x[1] + 1)],
              "category": lambda x: self._categories[x](),
              'branch': lambda x: ''.join(self._handle_state(i) for
-                                                            i in choice(x[1])),
+                                        i in self._random.choice(x[1])),
              "subpattern": lambda x: self._handle_group(x),
              "assert": lambda x: ''.join(self._handle_state(i) for i in x[1]),
              "assert_not": lambda x: '',
@@ -86,14 +85,14 @@ class Xeger(object):
                                                      i in value)))
         if candidates[0] is False:
             candidates = set(string.printable).difference(candidates[1:])
-            return choice(list(candidates))
+            return self._random.choice(list(candidates))
         else:
-            return choice(candidates)
+            return self._random.choice(candidates)
 
     def _handle_repeat(self, start_range, end_range, value):
         result = []
         end_range = min((end_range, STAR_PLUS_LIMIT))
-        times = randint(start_range, end_range)
+        times = self._random.randint(start_range, end_range)
         for i in xrange(times):
             result.append(''.join(self._handle_state(i) for i in value))
         return ''.join(result)

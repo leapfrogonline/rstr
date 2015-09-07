@@ -86,8 +86,9 @@ class RstrBase(object):
     consequently, in internet domains: letters, digits, and the hyphen.
 
     """
-    def __init__(self, **custom_alphabets):
+    def __init__(self, _random=random, **custom_alphabets):
         super(RstrBase, self).__init__()
+        self._random=_random
         self._alphabets = copy(ALPHABETS)
         for alpha_name, alphabet in custom_alphabets.items():
             self.add_alphabet(alpha_name, alphabet)
@@ -105,6 +106,12 @@ class RstrBase(object):
         else:
             message = "Rstr instance has no attribute: {0}".format(attr)
             raise AttributeError(message)
+
+    def sample_wr(self, population, k):
+        """Samples k random elements (with replacement) from a population"""
+        return [self._random.choice(population)
+                for i in itertools.repeat(None, k)]
+
 
     def rstr(self, alphabet, start_range=None,
              end_range=None, include='', exclude=''):
@@ -132,20 +139,15 @@ class RstrBase(object):
                 k = start_range
 
         if end_range:
-            k = random.randint(start_range, end_range)
+            k = self._random.randint(start_range, end_range)
 
-        result = sample_wr(popul, k) + list(include)
-        random.shuffle(result)
+        result = self.sample_wr(popul, k) + list(include)
+        self._random.shuffle(result)
         return ''.join(result)
 
 
 class Rstr(RstrBase, Xeger):
-    def init(self, **alphabets):
-        super(Rstr, self).__init__(**alphabets)
+    def init(self, _random=random, **alphabets):
+        super(Rstr, self).__init__(_random, **alphabets)
 
 default_instance = Rstr()
-
-
-def sample_wr(population, k):
-    """Samples k random elements (with replacement) from a population"""
-    return [random.choice(population) for i in itertools.repeat(None, k)]
