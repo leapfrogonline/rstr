@@ -1,6 +1,7 @@
 import re
 import unittest
 import sys
+import random
 
 from rstr.rstr_base import Rstr
 
@@ -38,6 +39,11 @@ class TestRstr(unittest.TestCase):
     def test_exclude_as_list(self):
         for _ in xrange(0, 100):
             assert 'C' not in self.rs.rstr('ABC', exclude=['C'])
+
+
+class TestSystemRandom(TestRstr):
+    def setUp(self):
+        self.rs = Rstr(random.SystemRandom())
 
 
 class TestDigits(unittest.TestCase):
