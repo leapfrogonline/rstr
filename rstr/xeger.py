@@ -18,6 +18,7 @@ STAR_PLUS_LIMIT = 100
 
 
 class Xeger(object):
+
     """Inspired by the Java library Xeger: http://code.google.com/p/xeger/
     This class adds functionality to Rstr allowing users to generate a
     semi-random string from a regular expression."""
@@ -26,28 +27,28 @@ class Xeger(object):
         super(Xeger, self).__init__()
         self._cache = dict()
         self._categories = {
-            "category_digit": lambda: self._alphabets['digits'],
-            "category_not_digit": lambda: self._alphabets['nondigits'],
-            "category_space": lambda: self._alphabets['whitespace'],
-            "category_not_space": lambda: self._alphabets['nonwhitespace'],
-            "category_word": lambda: self._alphabets['word'],
-            "category_not_word": lambda: self._alphabets['nonword'],
+            'category_digit': lambda: self._alphabets['digits'],
+            'category_not_digit': lambda: self._alphabets['nondigits'],
+            'category_space': lambda: self._alphabets['whitespace'],
+            'category_not_space': lambda: self._alphabets['nonwhitespace'],
+            'category_word': lambda: self._alphabets['word'],
+            'category_not_word': lambda: self._alphabets['nonword'],
         }
 
-        self._cases = {"literal": lambda x: unichr(x),
-             "not_literal": lambda x: self._random.choice(
-                                string.printable.replace(unichr(x), '')),
-             "at": lambda x: '',
-             "in": lambda x: self._handle_in(x),
-             "any": lambda x: self.printable(1, exclude='\n'),
-             "range": lambda x: [unichr(i) for i in range(x[0], x[1] + 1)],
-             "category": lambda x: self._categories[x](),
-             'branch': lambda x: ''.join(self._handle_state(i) for
+        self._cases = {'literal': lambda x: unichr(x),
+                       'not_literal': lambda x: self._random.choice(
+            string.printable.replace(unichr(x), '')),
+            'at': lambda x: '',
+            'in': lambda x: self._handle_in(x),
+            'any': lambda x: self.printable(1, exclude='\n'),
+            'range': lambda x: [unichr(i) for i in range(x[0], x[1] + 1)],
+            'category': lambda x: self._categories[x](),
+            'branch': lambda x: ''.join(self._handle_state(i) for
                                         i in self._random.choice(x[1])),
-            "subpattern": lambda x: self._handle_group(x),
-            "assert": lambda x: ''.join(self._handle_state(i) for i in x[1]),
-            "assert_not": lambda x: '',
-            "groupref": lambda x: self._cache[x],
+            'subpattern': lambda x: self._handle_group(x),
+            'assert': lambda x: ''.join(self._handle_state(i) for i in x[1]),
+            'assert_not': lambda x: '',
+            'groupref': lambda x: self._cache[x],
             'min_repeat': lambda x: self._handle_repeat(*x),
             'max_repeat': lambda x: self._handle_repeat(*x),
             'negate': lambda x: [False],
