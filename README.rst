@@ -12,10 +12,19 @@ with Python 3.
 A Word of Caution
 -----------------
 
-rstr uses the Python ``random`` module internally to generate psuedorandom text.
+By default, rstr uses the Python ``random`` module to generate psuedorandom text. This module is based on the Mersenne Twister and is *not* cryptographically secure.
 
-**This library is not suitable for password-generation or other cryptographic
-applications.**
+If you wish to use rstr for password-generation or other cryptographic
+applications, you must create an instance that uses SystemRandom_.
+
+For example:
+
+::
+
+    >> from rstr import Rstr
+    >> from random import SystemRandom
+    >> rs = Rstr(SystemRandom())
+
 
 Use
 ---
@@ -198,3 +207,5 @@ A postal address:
                rstr.uppercase(2),
                rstr.digits(5),
                )
+
+.. _SystemRandom: https://docs.python.org/2/library/random.html#random.SystemRandom
