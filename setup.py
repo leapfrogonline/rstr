@@ -12,7 +12,7 @@ classifiers = [
  'Topic :: Software Development :: Testing',
 ]
 
-with file('./LICENSE.txt') as f:
+with open('./LICENSE.txt') as f:
     _license = f.read()
 
 setup(name='rstr',
