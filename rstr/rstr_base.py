@@ -1,8 +1,8 @@
-#Copyright (c) 2011, Leapfrog Direct Response, LLC
-#All rights reserved.
+# Copyright (c) 2011, Leapfrog Direct Response, LLC
+# All rights reserved.
 #
-#Redistribution and use in source and binary forms, with or without
-#modification, are permitted provided that the following conditions are met:
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
 #    * Redistributions of source code must retain the above copyright
 #      notice, this list of conditions and the following disclaimer.
 #    * Redistributions in binary form must reproduce the above copyright
@@ -13,24 +13,26 @@
 #      contributors, may be used to endorse or promote products derived
 #      from this software without specific prior written permission.
 #
-#THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-#"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-#LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-#A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL LEAPFROG DIRECT
-#RESPONSE, LLC, INCLUDING ITS SUBSIDIARIES AND AFFILIATES, BE LIABLE
-#FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-#CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-#SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
-#BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-#WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
-#OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
-#IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+# A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL LEAPFROG DIRECT
+# RESPONSE, LLC, INCLUDING ITS SUBSIDIARIES AND AFFILIATES, BE LIABLE
+# FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+# BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+# OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+# IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+
+import itertools
 import random
 import string
-import itertools
 from copy import copy
 from functools import partial
+
 from rstr.xeger import Xeger
 
 
@@ -52,7 +54,7 @@ ALPHABETS = {'printable': string.printable,
              'postalsafe': string.ascii_letters + string.digits + ' .-#/',
              'urlsafe': string.ascii_letters + string.digits + '-._~',
              'domainsafe': string.ascii_letters + string.digits + '-'
-            }
+             }
 
 
 class RstrBase(object):
@@ -86,9 +88,10 @@ class RstrBase(object):
     consequently, in internet domains: letters, digits, and the hyphen.
 
     """
-    def __init__(self, _random=random, **custom_alphabets):
+
+    def __init__(self, _random, **custom_alphabets):
         super(RstrBase, self).__init__()
-        self._random=_random
+        self._random = _random
         self._alphabets = copy(ALPHABETS)
         for alpha_name, alphabet in custom_alphabets.items():
             self.add_alphabet(alpha_name, alphabet)
@@ -111,7 +114,6 @@ class RstrBase(object):
         """Samples k random elements (with replacement) from a population"""
         return [self._random.choice(population)
                 for i in itertools.repeat(None, k)]
-
 
     def rstr(self, alphabet, start_range=None,
              end_range=None, include='', exclude=''):
@@ -147,7 +149,8 @@ class RstrBase(object):
 
 
 class Rstr(RstrBase, Xeger):
-    def init(self, _random=random, **alphabets):
-        super(Rstr, self).__init__(_random, **alphabets)
+
+    def __init__(self, _random=random, **alphabets):
+        super(Rstr, self).__init__(_random=_random, **alphabets)
 
 default_instance = Rstr()
