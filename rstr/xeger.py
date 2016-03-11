@@ -73,6 +73,7 @@ class Xeger(object):
 
     def _handle_state(self, state):
         opcode, value = state
+        opcode = str(opcode).lower()
         return self._cases[opcode](value)
 
     def _handle_group(self, value):
