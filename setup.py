@@ -16,7 +16,7 @@ with open('./LICENSE.txt') as f:
     _license = f.read()
 
 setup(name='rstr',
-      version='2.2.3',
+      version='2.2.4',
       description='Generate random strings in Python',
       author='Leapfrog Direct Response LLC',
       author_email='oss@leapfrogdevelopment.com',
