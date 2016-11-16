@@ -73,7 +73,7 @@ class Xeger(object):
 
     def _handle_state(self, state):
         opcode, value = state
-        opcode = str(opcode).lower()
+        opcode, value = _2and3(opcode, value)
         return self._cases[opcode](value)
 
     def _handle_group(self, value):
@@ -98,3 +98,11 @@ class Xeger(object):
         for i in xrange(times):
             result.append(''.join(self._handle_state(i) for i in value))
         return ''.join(result)
+
+
+def _2and3(opcode, value):
+    opcode = str(opcode).lower()
+    if sys.version_info >= (3, 5) and opcode == 'category':
+        value = value.name.lower()
+    return opcode, value
+
