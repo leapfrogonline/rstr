@@ -9,6 +9,7 @@ classifiers = [
  'Programming Language :: Python :: 2.7',
  'Programming Language :: Python :: 3.3',
  'Programming Language :: Python :: 3.4',
+ 'Programming Language :: Python :: 3.5',
  'Topic :: Software Development :: Testing',
 ]
 
@@ -16,7 +17,7 @@ with open('./LICENSE.txt') as f:
     _license = f.read()
 
 setup(name='rstr',
-      version='2.2.4',
+      version='2.2.5',
       description='Generate random strings in Python',
       author='Leapfrog Direct Response LLC',
       author_email='oss@leapfrogdevelopment.com',
@@ -29,6 +30,6 @@ setup(name='rstr',
                 'strings',
                 'reverse regular expression'],
       url='http://bitbucket.org/leapfrogdevelopment/rstr/overview',
-      packages=['rstr'],
+      packages=['rstr', 'rstr.tests'],
       test_suite='rstr.tests.suite',
       )
