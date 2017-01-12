@@ -77,7 +77,7 @@ class Xeger(object):
         return self._cases[opcode](value)
 
     def _handle_group(self, value):
-        result = ''.join(self._handle_state(i) for i in value[1])
+        result = ''.join(self._handle_state(i) for i in value[-1])
         if value[0]:
             self._cache[value[0]] = result
         return result
