@@ -6,8 +6,8 @@ rstr is a helper module for easily generating random strings of various types.
 It could be useful for fuzz testing, generating dummy data, or other
 applications.
 
-It has no dependencies outside the standard library, and should be compatible
-with Python 3.
+It has no dependencies outside the standard library, and is compatible with
+Python 3.
 
 A Word of Caution
 -----------------
