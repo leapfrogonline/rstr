@@ -246,7 +246,7 @@ Description: ===============================
                        )
         
         .. _SystemRandom: https://docs.python.org/2/library/random.html#random.SystemRandom
-Keywords: Random strings
+Keywords: Random strings, reverse regex, reverse regular expression, testing, fuzz testing
 Classifier: Development Status :: 5 - Production/Stable
 Classifier: Intended Audience :: Developers
 Classifier: License :: OSI Approved :: BSD License
