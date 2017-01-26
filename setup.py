@@ -20,7 +20,7 @@ with open('./README.rst') as f:
     _readme = f.read()
 
 setup(name='rstr',
-      version='2.2.5',
+      version='2.2.6',
       description=_readme,
       author='Leapfrog Direct Response LLC',
       author_email='oss@leapfrogdevelopment.com',
@@ -35,5 +35,4 @@ setup(name='rstr',
       url='http://bitbucket.org/leapfrogdevelopment/rstr/overview',
       packages=['rstr', 'rstr.tests'],
       test_suite='rstr.tests.suite',
-      provides=['hours.of.debugging.fun'],
       )
