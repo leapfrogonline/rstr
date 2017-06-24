@@ -51,6 +51,9 @@ ALPHABETS = {'printable': string.printable,
              'nonword': ''.join(set(string.printable)
                                 .difference(string.ascii_letters +
                                             string.digits + '_')),
+             'userfriendly' : "".join(
+                 set(string.ascii_letters + string.digits)
+                 .difference("0O1lI")),
              'postalsafe': string.ascii_letters + string.digits + ' .-#/',
              'urlsafe': string.ascii_letters + string.digits + '-._~',
              'domainsafe': string.ascii_letters + string.digits + '-'

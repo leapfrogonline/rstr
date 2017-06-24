@@ -124,6 +124,10 @@ normal()
     Characters commonly accepted in text input, equivalent to string.digits +
     string.letters + ' ' (the space character).
 
+userfriendly()
+    The characters provided by the concatenation of string.digits and 
+    string.letters except characters which are similar: 1, l and I, etc.
+
 postalsafe()
     Characters that are safe for use in postal addresses in the United States:
     upper- and lower-case letters, digits, spaces, and the punctuation marks period,
