@@ -124,7 +124,7 @@ normal()
     Characters commonly accepted in text input, equivalent to string.digits +
     string.letters + ' ' (the space character).
 
-userfriendly()
+unambiguous()
     The characters provided by the concatenation of string.digits and 
     string.letters except characters which are similar: 1, l and I, etc.
 

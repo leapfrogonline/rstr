@@ -91,23 +91,23 @@ class TestLetters(unittest.TestCase):
             assert 'A' not in self.rs.letters(exclude='A')
 
  
-class TestUserFriendly(unittest.TestCase):
+class TestUnambiguous(unittest.TestCase):
     def setUp(self):
         self.rs = Rstr()
 
-    def test_user_friendly(self):
+    def test_unambiguous(self):
         assert re.match(
                 '^[a-km-zA-HJ-NP-Z2-9]{1,10}$',
-                self.rs.userfriendly())
+                self.rs.unambiguous())
 
-    def test_user_friendly_include(self):
+    def test_unambiguous_include(self):
         assert re.match(
                 '^[a-km-zA-HJ-NP-Z2-9@]{1,10}$',
-                self.rs.userfriendly(include='@'))
+                self.rs.unambiguous(include='@'))
 
-    def test_user_friendly_exclude(self):
+    def test_unambiguous_exclude(self):
         for _ in xrange(0, 100):
-            assert 'A' not in self.rs.userfriendly(exclude='A')
+            assert 'A' not in self.rs.unambiguous(exclude='A')
 
 
 class TestCustomAlphabets(unittest.TestCase):
