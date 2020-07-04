@@ -142,6 +142,9 @@ class RstrBase(object):
 
         if end_range:
             k = self._random.randint(start_range, end_range)
+        # Make sure we don't generate too long a string
+        # when adding 'include' to it:
+        k = k - len(include)
 
         result = self.sample_wr(popul, k) + list(include)
         self._random.shuffle(result)

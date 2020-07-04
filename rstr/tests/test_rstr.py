@@ -29,6 +29,12 @@ class TestRstr(unittest.TestCase):
     def test_include(self):
         assert_matches('^[ABC]*@[ABC]*$', self.rs.rstr('ABC', include='@'))
 
+    def test_include_specific_length(self):
+        '''
+        Verify including characters doesn't make the string longer than intended.
+        '''
+        assert_matches('^[ABC@]{5}$', self.rs.rstr('ABC', 5, include='@'))
+
     def test_exclude(self):
         for _ in range(0, 100):
             assert 'C' not in self.rs.rstr('ABC', exclude='C')
