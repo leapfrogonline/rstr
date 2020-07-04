@@ -13,9 +13,9 @@ STAR_PLUS_LIMIT = 100
 
 class Xeger(object):
 
-    """Inspired by the Java library Xeger: http://code.google.com/p/xeger/
+    '''Inspired by the Java library Xeger: http://code.google.com/p/xeger/
     This class adds functionality to Rstr allowing users to generate a
-    semi-random string from a regular expression."""
+    semi-random string from a regular expression.'''
 
     def __init__(self):
         super(Xeger, self).__init__()
@@ -29,16 +29,15 @@ class Xeger(object):
             'category_not_word': lambda: self._alphabets['nonword'],
         }
 
-        self._cases = {'literal': lambda x: chr(x),
-                       'not_literal': lambda x: self._random.choice(
-            string.printable.replace(chr(x), '')),
+        self._cases = {
+            'literal': lambda x: chr(x),
+            'not_literal': lambda x: self._random.choice(string.printable.replace(chr(x), '')),
             'at': lambda x: '',
             'in': lambda x: self._handle_in(x),
             'any': lambda x: self.printable(1, exclude='\n'),
             'range': lambda x: [chr(i) for i in range(x[0], x[1] + 1)],
             'category': lambda x: self._categories[x](),
-            'branch': lambda x: ''.join(self._handle_state(i) for
-                                        i in self._random.choice(x[1])),
+            'branch': lambda x: ''.join(self._handle_state(i) for i in self._random.choice(x[1])),
             'subpattern': lambda x: self._handle_group(x),
             'assert': lambda x: ''.join(self._handle_state(i) for i in x[1]),
             'assert_not': lambda x: '',
@@ -79,8 +78,7 @@ class Xeger(object):
         return result
 
     def _handle_in(self, value):
-        candidates = list(chain(*(self._handle_state(i) for
-                                  i in value)))
+        candidates = list(chain(*(self._handle_state(i) for i in value)))
         if candidates[0] is False:
             candidates = set(string.printable).difference(candidates[1:])
             return self._random.choice(list(candidates))

@@ -13,10 +13,10 @@ class TestXeger(unittest.TestCase):
         assert re.match(pattern, self.rs.xeger(pattern))
 
     def test_dot(self):
-        """
+        '''
         Verify that the dot character doesn't produce newlines.
         See: https://bitbucket.org/leapfrogdevelopment/rstr/issue/1/
-        """
+        '''
         pattern = r'.+'
         for i in range(100):
             assert re.match(pattern, self.rs.xeger(pattern))

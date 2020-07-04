@@ -36,32 +36,31 @@ from functools import partial
 from rstr.xeger import Xeger
 
 
-ALPHABETS = {'printable': string.printable,
-             'letters': string.ascii_letters,
-             'uppercase': string.ascii_uppercase,
-             'lowercase': string.ascii_lowercase,
-             'digits': string.digits,
-             'punctuation': string.punctuation,
-             'nondigits': string.ascii_letters + string.punctuation,
-             'nonletters': string.digits + string.punctuation,
-             'whitespace': string.whitespace,
-             'nonwhitespace': string.printable.strip(),
-             'normal': string.ascii_letters + string.digits + ' ',
-             'word': string.ascii_letters + string.digits + '_',
-             'nonword': ''.join(set(string.printable)
-                                .difference(string.ascii_letters +
-                                            string.digits + '_')),
-             'unambiguous' : "".join(
-                 set(string.ascii_letters + string.digits)
-                 .difference("0O1lI")),
-             'postalsafe': string.ascii_letters + string.digits + ' .-#/',
-             'urlsafe': string.ascii_letters + string.digits + '-._~',
-             'domainsafe': string.ascii_letters + string.digits + '-'
-             }
+ALPHABETS = {
+    'printable': string.printable,
+    'letters': string.ascii_letters,
+    'uppercase': string.ascii_uppercase,
+    'lowercase': string.ascii_lowercase,
+    'digits': string.digits,
+    'punctuation': string.punctuation,
+    'nondigits': string.ascii_letters + string.punctuation,
+    'nonletters': string.digits + string.punctuation,
+    'whitespace': string.whitespace,
+    'nonwhitespace': string.printable.strip(),
+    'normal': string.ascii_letters + string.digits + ' ',
+    'word': string.ascii_letters + string.digits + '_',
+    'nonword': ''.join(
+        set(string.printable).difference(string.ascii_letters + string.digits + '_')
+    ),
+    'unambiguous': ''.join(set(string.ascii_letters + string.digits).difference('0O1lI')),
+    'postalsafe': string.ascii_letters + string.digits + ' .-#/',
+    'urlsafe': string.ascii_letters + string.digits + '-._~',
+    'domainsafe': string.ascii_letters + string.digits + '-',
+}
 
 
 class RstrBase(object):
-    """Create random strings from a variety of alphabets.
+    '''Create random strings from a variety of alphabets.
 
     The alphabets for printable(), uppercase(), lowercase(), digits(), and
     punctuation() are equivalent to the constants by those same names in the
@@ -90,7 +89,7 @@ class RstrBase(object):
     domainsafe() uses an alphabet of characters allowed in hostnames, and
     consequently, in internet domains: letters, digits, and the hyphen.
 
-    """
+    '''
 
     def __init__(self, _random, **custom_alphabets):
         super(RstrBase, self).__init__()
@@ -100,27 +99,25 @@ class RstrBase(object):
             self.add_alphabet(alpha_name, alphabet)
 
     def add_alphabet(self, alpha_name, characters):
-        """Add an additional alphabet to an Rstr instance and make it available
+        '''Add an additional alphabet to an Rstr instance and make it available
         via method calls.
 
-        """
+        '''
         self._alphabets[alpha_name] = characters
 
     def __getattr__(self, attr):
         if attr in self._alphabets:
             return partial(self.rstr, self._alphabets[attr])
         else:
-            message = "Rstr instance has no attribute: {0}".format(attr)
+            message = 'Rstr instance has no attribute: {0}'.format(attr)
             raise AttributeError(message)
 
     def sample_wr(self, population, k):
-        """Samples k random elements (with replacement) from a population"""
-        return [self._random.choice(population)
-                for i in itertools.repeat(None, k)]
+        '''Samples k random elements (with replacement) from a population'''
+        return [self._random.choice(population) for i in itertools.repeat(None, k)]
 
-    def rstr(self, alphabet, start_range=None,
-             end_range=None, include='', exclude=''):
-        """Generate a random string containing elements from 'alphabet'
+    def rstr(self, alphabet, start_range=None, end_range=None, include='', exclude=''):
+        '''Generate a random string containing elements from 'alphabet'
 
         By default, rstr() will return a string between 1 and 10 characters.
         You can specify a second argument to get an exact length of string.
@@ -134,7 +131,7 @@ class RstrBase(object):
         If you want to *prevent* certain characters from appearing, pass them
         as 'exclude'.
 
-        """
+        '''
         popul = [char for char in list(alphabet) if char not in list(exclude)]
 
         if end_range is None:

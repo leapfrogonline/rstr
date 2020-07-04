@@ -6,7 +6,7 @@ from rstr.rstr_base import Rstr
 
 
 def assert_matches(pattern, value):
-    errmsg = "{} does not match {}".format(value, pattern)
+    errmsg = '{} does not match {}'.format(value, pattern)
     assert re.match(pattern, value), errmsg
 
 
@@ -34,7 +34,7 @@ class TestRstr(unittest.TestCase):
             assert 'C' not in self.rs.rstr('ABC', exclude='C')
 
     def test_include_as_list(self):
-        assert_matches('^[ABC]*@[ABC]*$', self.rs.rstr('ABC', include=["@"]))
+        assert_matches('^[ABC]*@[ABC]*$', self.rs.rstr('ABC', include=['@']))
 
     def test_exclude_as_list(self):
         for _ in range(0, 100):
@@ -96,14 +96,10 @@ class TestUnambiguous(unittest.TestCase):
         self.rs = Rstr()
 
     def test_unambiguous(self):
-        assert_matches(
-                '^[a-km-zA-HJ-NP-Z2-9]{1,10}$',
-                self.rs.unambiguous())
+        assert_matches('^[a-km-zA-HJ-NP-Z2-9]{1,10}$', self.rs.unambiguous())
 
     def test_unambiguous_include(self):
-        assert_matches(
-                '^[a-km-zA-HJ-NP-Z2-9@]{1,10}$',
-                self.rs.unambiguous(include='@'))
+        assert_matches('^[a-km-zA-HJ-NP-Z2-9@]{1,10}$', self.rs.unambiguous(include='@'))
 
     def test_unambiguous_exclude(self):
         for _ in range(0, 100):
