@@ -6,8 +6,7 @@ rstr is a helper module for easily generating random strings of various types.
 It could be useful for fuzz testing, generating dummy data, or other
 applications.
 
-It has no dependencies outside the standard library, and is compatible with
-Python 3.
+It has no dependencies outside the standard library.
 
 A Word of Caution
 -----------------
@@ -125,7 +124,7 @@ normal()
     string.letters + ' ' (the space character).
 
 unambiguous()
-    The characters provided by the concatenation of string.digits and 
+    The characters provided by the concatenation of string.digits and
     string.letters except characters which are similar: 1, l and I, etc.
 
 postalsafe()
