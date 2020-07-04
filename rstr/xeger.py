@@ -1,12 +1,6 @@
 import re
 import string
 from itertools import chain
-import sys
-
-
-if sys.version_info[0] >= 3:
-    unichr = chr
-    xrange = range
 
 # The * and + characters in a regular expression
 # match up to any number of repeats in theory,
@@ -35,13 +29,13 @@ class Xeger(object):
             'category_not_word': lambda: self._alphabets['nonword'],
         }
 
-        self._cases = {'literal': lambda x: unichr(x),
+        self._cases = {'literal': lambda x: chr(x),
                        'not_literal': lambda x: self._random.choice(
-            string.printable.replace(unichr(x), '')),
+            string.printable.replace(chr(x), '')),
             'at': lambda x: '',
             'in': lambda x: self._handle_in(x),
             'any': lambda x: self.printable(1, exclude='\n'),
-            'range': lambda x: [unichr(i) for i in range(x[0], x[1] + 1)],
+            'range': lambda x: [chr(i) for i in range(x[0], x[1] + 1)],
             'category': lambda x: self._categories[x](),
             'branch': lambda x: ''.join(self._handle_state(i) for
                                         i in self._random.choice(x[1])),
@@ -73,7 +67,9 @@ class Xeger(object):
 
     def _handle_state(self, state):
         opcode, value = state
-        opcode, value = _2and3(opcode, value)
+        opcode = str(opcode).lower()
+        if opcode == 'category':
+            value = value.name.lower()
         return self._cases[opcode](value)
 
     def _handle_group(self, value):
@@ -95,14 +91,6 @@ class Xeger(object):
         result = []
         end_range = min((end_range, STAR_PLUS_LIMIT))
         times = self._random.randint(start_range, end_range)
-        for i in xrange(times):
+        for i in range(times):
             result.append(''.join(self._handle_state(i) for i in value))
         return ''.join(result)
-
-
-def _2and3(opcode, value):
-    opcode = str(opcode).lower()
-    if sys.version_info >= (3, 5) and opcode == 'category':
-        value = value.name.lower()
-    return opcode, value
-
