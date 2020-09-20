@@ -27,7 +27,6 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-import itertools
 import random
 import string
 from copy import copy
@@ -50,7 +49,8 @@ ALPHABETS = {
     'normal': string.ascii_letters + string.digits + ' ',
     'word': string.ascii_letters + string.digits + '_',
     'nonword': ''.join(
-        set(string.printable).difference(string.ascii_letters + string.digits + '_')
+        set(string.printable).difference(
+            string.ascii_letters + string.digits + '_')
     ),
     'unambiguous': ''.join(set(string.ascii_letters + string.digits).difference('0O1lI')),
     'postalsafe': string.ascii_letters + string.digits + ' .-#/',
@@ -114,7 +114,7 @@ class RstrBase(object):
 
     def sample_wr(self, population, k):
         '''Samples k random elements (with replacement) from a population'''
-        return [self._random.choice(population) for i in itertools.repeat(None, k)]
+        return [self._random.choice(population) for _ in range(k)]
 
     def rstr(self, alphabet, start_range=None, end_range=None, include='', exclude=''):
         '''Generate a random string containing elements from 'alphabet'
@@ -155,5 +155,6 @@ class Rstr(RstrBase, Xeger):
 
     def __init__(self, _random=random, **alphabets):
         super(Rstr, self).__init__(_random=_random, **alphabets)
+
 
 default_instance = Rstr()
