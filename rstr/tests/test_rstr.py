@@ -105,7 +105,8 @@ class TestUnambiguous(unittest.TestCase):
         assert_matches('^[a-km-zA-HJ-NP-Z2-9]{1,10}$', self.rs.unambiguous())
 
     def test_unambiguous_include(self):
-        assert_matches('^[a-km-zA-HJ-NP-Z2-9@]{1,10}$', self.rs.unambiguous(include='@'))
+        assert_matches(
+            '^[a-km-zA-HJ-NP-Z2-9@]{1,10}$', self.rs.unambiguous(include='@'))
 
     def test_unambiguous_exclude(self):
         for _ in range(0, 100):
