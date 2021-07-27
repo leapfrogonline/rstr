@@ -53,6 +53,7 @@ class TestRstr(unittest.TestCase):
         with self.assertRaisesRegex(SameCharacterError, r"include and exclude parameters contain same characters \(., .\)"):
             self.rs.rstr('A', include='BC', exclude='BC')
 
+
 class TestSystemRandom(TestRstr):
     def setUp(self):
         self.rs = Rstr(random.SystemRandom())
