@@ -162,5 +162,5 @@ class Rstr(RstrBase, Xeger):
 default_instance = Rstr()
 
 
-class SameCharacterError(Exception):
+class SameCharacterError(ValueError):
     pass
