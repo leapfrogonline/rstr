@@ -31,7 +31,7 @@ setup(name='rstr',
                 'random',
                 'strings',
                 'reverse regular expression'],
-      url='http://bitbucket.org/leapfrogdevelopment/rstr/overview',
+      url='https://github.com/leapfrogonline/rstr',
       packages=['rstr', 'rstr.tests'],
       test_suite='rstr.tests.suite',
       )

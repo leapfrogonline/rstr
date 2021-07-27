@@ -211,4 +211,4 @@ A postal address:
                rstr.digits(5),
                )
 
-.. _SystemRandom: https://docs.python.org/2/library/random.html#random.SystemRandom
+.. _SystemRandom: https://docs.python.org/3/library/random.html#random.SystemRandom
