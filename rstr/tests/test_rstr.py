@@ -2,7 +2,7 @@ import re
 import unittest
 import random
 
-from rstr.rstr_base import Rstr
+from rstr.rstr_base import Rstr, SameCharacterError
 
 
 def assert_matches(pattern, value):
@@ -45,6 +45,13 @@ class TestRstr(unittest.TestCase):
     def test_exclude_as_list(self):
         for _ in range(0, 100):
             assert 'C' not in self.rs.rstr('ABC', exclude=['C'])
+
+    def test_raise_exception_if_include_and_exclude_parameters_contain_same_character(self):
+        with self.assertRaisesRegex(SameCharacterError, r"include and exclude parameters contain same character \(B\)"):
+            self.rs.rstr('A', include='B', exclude='B')
+            self.rs.rstr('A', include=['B'], exclude=['B'])
+        with self.assertRaisesRegex(SameCharacterError, r"include and exclude parameters contain same characters \(., .\)"):
+            self.rs.rstr('A', include='BC', exclude='BC')
 
 
 class TestSystemRandom(TestRstr):
