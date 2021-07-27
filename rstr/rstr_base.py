@@ -132,6 +132,9 @@ class RstrBase(object):
         as 'exclude'.
 
         '''
+        if set(include).intersection(exclude):
+            raise SameCharacterError()
+
         popul = [char for char in list(alphabet) if char not in list(exclude)]
 
         if end_range is None:
@@ -157,3 +160,7 @@ class Rstr(RstrBase, Xeger):
         super(Rstr, self).__init__(_random=_random, **alphabets)
 
 default_instance = Rstr()
+
+
+class SameCharacterError(Exception):
+    pass
