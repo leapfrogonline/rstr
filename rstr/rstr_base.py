@@ -133,7 +133,7 @@ class RstrBase(object):
 
         '''
         if set(include).intersection(exclude):
-            raise SameCharacterError()
+            raise SameCharacterError("include and exclude parameters contain same character(s)")
 
         popul = [char for char in list(alphabet) if char not in list(exclude)]
 
