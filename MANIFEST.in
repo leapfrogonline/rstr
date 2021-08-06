@@ -1,1 +1,3 @@
 include LICENSE.txt
+include py.typed
+include rstr/*.pyi
