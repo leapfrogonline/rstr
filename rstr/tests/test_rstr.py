@@ -20,6 +20,9 @@ class TestRstr(unittest.TestCase):
     def test_length_range(self):
         assert_matches('^A{11,20}$', self.rs.rstr('A', 11, 20))
 
+    def test_end_range_no_start_range(self):
+        assert_matches('^A{1,20}$', self.rs.rstr('A', end_range=20))
+
     def test_custom_alphabet(self):
         assert_matches('^A{1,10}$', self.rs.rstr('AA'))
 
