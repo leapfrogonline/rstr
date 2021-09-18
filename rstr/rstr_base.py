@@ -147,6 +147,8 @@ class RstrBase(object):
                 start_range, end_range = (1, 10)
             else:
                 k = start_range
+        elif start_range is None:
+            start_range = 1
 
         if end_range:
             k = self._random.randint(start_range, end_range)
