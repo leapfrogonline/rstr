@@ -1,7 +1,7 @@
 import re
 import unittest
 
-from rstr.rstr_base import Rstr
+from rstr import Rstr
 
 
 class TestXeger(unittest.TestCase):
