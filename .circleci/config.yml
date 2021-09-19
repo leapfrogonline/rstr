@@ -1,0 +1,16 @@
+version: 2.1
+
+jobs:
+    test:
+        docker:
+            - image: mikicz/tox-base
+        steps:
+            - checkout
+            - run:
+                name: Run tests
+                command: tox
+
+workflows:
+    test:
+        jobs:
+            - test

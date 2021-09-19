@@ -2,6 +2,9 @@
 rstr = Random Strings in Python
 ===============================
 
+.. image:: https://circleci.com/gh/leapfrogonline/rstr.svg?style=svg
+    :target: https://circleci.com/gh/leapfrogonline/rstr
+
 rstr is a helper module for easily generating random strings of various types.
 It could be useful for fuzz testing, generating dummy data, or other
 applications.
