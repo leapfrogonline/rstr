@@ -2,7 +2,7 @@ import re
 import unittest
 import random
 
-from rstr.rstr_base import Rstr, SameCharacterError
+from rstr import Rstr, SameCharacterError
 
 
 def assert_matches(pattern, value):

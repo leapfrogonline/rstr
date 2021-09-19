@@ -28,12 +28,9 @@
 
 
 import itertools
-import random
 import string
 from copy import copy
 from functools import partial
-
-from rstr.xeger import Xeger
 
 
 ALPHABETS = {
@@ -159,14 +156,6 @@ class RstrBase(object):
         result = self.sample_wr(popul, k) + list(include)
         self._random.shuffle(result)
         return ''.join(result)
-
-
-class Rstr(RstrBase, Xeger):
-
-    def __init__(self, _random=random, **alphabets):
-        super(Rstr, self).__init__(_random=_random, **alphabets)
-
-default_instance = Rstr()
 
 
 class SameCharacterError(ValueError):

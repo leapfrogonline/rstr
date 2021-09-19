@@ -1,6 +1,9 @@
+import random
 import re
 import string
 from itertools import chain
+
+from rstr.rstr_base import RstrBase
 
 # The * and + characters in a regular expression
 # match up to any number of repeats in theory,
@@ -11,14 +14,14 @@ from itertools import chain
 STAR_PLUS_LIMIT = 100
 
 
-class Xeger(object):
+class Xeger(RstrBase):
 
     '''Inspired by the Java library Xeger: http://code.google.com/p/xeger/
     This class adds functionality to Rstr allowing users to generate a
     semi-random string from a regular expression.'''
 
-    def __init__(self):
-        super(Xeger, self).__init__()
+    def __init__(self, _random=random, **custom_alphabets):
+        super(Xeger, self).__init__(_random, **custom_alphabets)
         self._cache = dict()
         self._categories = {
             'category_digit': lambda: self._alphabets['digits'],
