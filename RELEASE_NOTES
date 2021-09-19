@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Fix a bug where setting end_range but not start_range would fail.
+- Statically type the library, using PEP 484 annotations.
 
 ## 3.0.0
 
