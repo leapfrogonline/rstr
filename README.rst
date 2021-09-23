@@ -186,7 +186,7 @@ An email address:
 ::
 
     '{0}@{1}.{2}'.format(rstr.nonwhitespace(exclude='@'),
-                         rstr.domainsafe()
+                         rstr.domainsafe(),
                          rstr.letters(3))
 
 A URL:
