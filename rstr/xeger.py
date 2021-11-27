@@ -1,9 +1,15 @@
 import random
-import re
+import sre_parse
 import string
 from itertools import chain
+import typing
+from typing import Any, Callable, Dict, Mapping, Pattern, Sequence, Union
 
 from rstr.rstr_base import RstrBase
+
+if typing.TYPE_CHECKING:
+    from rstr.rstr_base import _Random
+
 
 # The * and + characters in a regular expression
 # match up to any number of repeats in theory,
@@ -15,15 +21,16 @@ STAR_PLUS_LIMIT = 100
 
 
 class Xeger(RstrBase):
-
     '''Inspired by the Java library Xeger: http://code.google.com/p/xeger/
     This class adds functionality to Rstr allowing users to generate a
     semi-random string from a regular expression.'''
 
-    def __init__(self, _random=random, **custom_alphabets):
+    def __init__(
+        self, _random: '_Random' = typing.cast('_Random', random), **custom_alphabets: str,
+    ) -> None:
         super(Xeger, self).__init__(_random, **custom_alphabets)
-        self._cache = dict()
-        self._categories = {
+        self._cache: Dict[str, str] = dict()
+        self._categories: Mapping[str, Callable[[], str]] = {
             'category_digit': lambda: self._alphabets['digits'],
             'category_not_digit': lambda: self._alphabets['nondigits'],
             'category_space': lambda: self._alphabets['whitespace'],
@@ -32,7 +39,7 @@ class Xeger(RstrBase):
             'category_not_word': lambda: self._alphabets['nonword'],
         }
 
-        self._cases = {
+        self._cases: Mapping[str, Callable[..., Any]] = {
             'literal': lambda x: chr(x),
             'not_literal': lambda x: self._random.choice(string.printable.replace(chr(x), '')),
             'at': lambda x: '',
@@ -50,45 +57,43 @@ class Xeger(RstrBase):
             'negate': lambda x: [False],
         }
 
-    def xeger(self, string_or_regex):
+    def xeger(self, string_or_regex: Union[str, Pattern[str]]) -> str:
         try:
-            pattern = string_or_regex.pattern
+            pattern = typing.cast(Pattern[str], string_or_regex).pattern
         except AttributeError:
-            pattern = string_or_regex
+            pattern = typing.cast(str, string_or_regex)
 
-        parsed = re.sre_parse.parse(pattern)
+        parsed = sre_parse.parse(pattern)
         result = self._build_string(parsed)
         self._cache.clear()
         return result
 
-    def _build_string(self, parsed):
+    def _build_string(self, parsed: Any) -> str:
         newstr = []
         for state in parsed:
             newstr.append(self._handle_state(state))
         return ''.join(newstr)
 
-    def _handle_state(self, state):
+    def _handle_state(self, state: Any) -> Any:
         opcode, value = state
         opcode = str(opcode).lower()
         if opcode == 'category':
             value = value.name.lower()
         return self._cases[opcode](value)
 
-    def _handle_group(self, value):
+    def _handle_group(self, value: Sequence[Any]) -> str:
         result = ''.join(self._handle_state(i) for i in value[-1])
         if value[0]:
             self._cache[value[0]] = result
         return result
 
-    def _handle_in(self, value):
+    def _handle_in(self, value: Any) -> Any:
         candidates = list(chain(*(self._handle_state(i) for i in value)))
         if candidates[0] is False:
-            candidates = set(string.printable).difference(candidates[1:])
-            return self._random.choice(list(candidates))
-        else:
-            return self._random.choice(candidates)
+            candidates = list(set(string.printable).difference(candidates[1:]))
+        return self._random.choice(candidates)
 
-    def _handle_repeat(self, start_range, end_range, value):
+    def _handle_repeat(self, start_range: int, end_range: int, value: str) -> str:
         result = []
         end_range = min((end_range, STAR_PLUS_LIMIT))
         times = self._random.randint(start_range, end_range)

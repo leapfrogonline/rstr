@@ -29,11 +29,47 @@
 
 import itertools
 import string
-from copy import copy
 from functools import partial
+import typing
+from typing import Any, Callable, Iterable, List, Mapping, MutableSequence, Optional, Sequence, TypeVar
 
 
-ALPHABETS = {
+_T = TypeVar('_T')
+
+
+if typing.TYPE_CHECKING:
+    from typing import Protocol
+
+    class _Random(Protocol):
+        """Partial interface of the random module needed for the rstr library."""
+
+        def randint(self, a: int, b: int) -> int:
+            ...
+
+        def choice(self, seq: Sequence[_T]) -> _T:
+            ...
+
+        def shuffle(
+            self,
+            x: MutableSequence[Any],
+            random: Optional[Callable[[], float]] = ...,
+        ) -> None:
+            ...
+
+
+    class _PartialRstrFunc(Protocol):
+
+        def __call__(
+            self,
+            start_range: Optional[int] = ...,
+            end_range: Optional[int] = ...,
+            include: str = ...,
+            exclude: str = ...,
+        ) -> str:
+            ...
+
+
+ALPHABETS: Mapping[str, str] = {
     'printable': string.printable,
     'letters': string.ascii_letters,
     'uppercase': string.ascii_uppercase,
@@ -88,32 +124,39 @@ class RstrBase(object):
 
     '''
 
-    def __init__(self, _random, **custom_alphabets):
+    def __init__(self, _random: '_Random', **custom_alphabets: str) -> None:
         super(RstrBase, self).__init__()
         self._random = _random
-        self._alphabets = copy(ALPHABETS)
+        self._alphabets = dict(ALPHABETS)
         for alpha_name, alphabet in custom_alphabets.items():
             self.add_alphabet(alpha_name, alphabet)
 
-    def add_alphabet(self, alpha_name, characters):
+    def add_alphabet(self, alpha_name: str, characters: str) -> None:
         '''Add an additional alphabet to an Rstr instance and make it available
         via method calls.
 
         '''
         self._alphabets[alpha_name] = characters
 
-    def __getattr__(self, attr):
+    def __getattr__(self, attr: str) -> '_PartialRstrFunc':
         if attr in self._alphabets:
             return partial(self.rstr, self._alphabets[attr])
         else:
             message = 'Rstr instance has no attribute: {0}'.format(attr)
             raise AttributeError(message)
 
-    def sample_wr(self, population, k):
+    def sample_wr(self, population: Sequence[str], k: int) -> List[str]:
         '''Samples k random elements (with replacement) from a population'''
         return [self._random.choice(population) for i in itertools.repeat(None, k)]
 
-    def rstr(self, alphabet, start_range=None, end_range=None, include='', exclude=''):
+    def rstr(
+        self,
+        alphabet: Iterable[str],
+        start_range: Optional[int] = None,
+        end_range: Optional[int] = None,
+        include: Sequence[str] = '',
+        exclude: Sequence[str] = '',
+    ) -> str:
         '''Generate a random string containing elements from 'alphabet'
 
         By default, rstr() will return a string between 1 and 10 characters.
