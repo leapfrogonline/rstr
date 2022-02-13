@@ -1,9 +1,11 @@
 # Release Notes
 
-## Unreleased
+## 3.1.0
 
 - Fix a bug where setting end_range but not start_range would fail.
 - Statically type the library, using PEP 484 annotations.
+- Drops test coverage for Python 3.6 (EoL December 2021).
+- Adds test coverage for Python 3.10.
 
 ## 3.0.0
 
