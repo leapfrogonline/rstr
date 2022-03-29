@@ -1,5 +1,9 @@
 # Release Notes
 
+## Unreleased
+
+- Fix a bug that made xeger() fail under pypy3.8
+
 ## 3.1.0
 
 - Fix a bug where setting end_range but not start_range would fail.
