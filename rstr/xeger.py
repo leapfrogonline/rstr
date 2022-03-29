@@ -76,7 +76,7 @@ class Xeger(RstrBase):
 
     def _handle_state(self, state: Any) -> Any:
         opcode, value = state
-        opcode = str(opcode).lower()
+        opcode = opcode.name.lower()
         if opcode == 'category':
             value = value.name.lower()
         return self._cases[opcode](value)
