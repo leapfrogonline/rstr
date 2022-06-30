@@ -10,7 +10,7 @@ class TestPackageLevelFunctions(unittest.TestCase):
         assert re.match(r'^[ABC]+$', rstr.rstr('ABC'))
 
     def test_xeger(self) -> None:
-        assert re.match(r'^foo[\d]{10}bar$', rstr.xeger('^foo[\d]{10}bar$'))
+        assert re.match(r'^foo[\d]{10}bar$', rstr.xeger(r'^foo[\d]{10}bar$'))
 
     def test_convenience_function(self) -> None:
         assert re.match(r'^[a-zA-Z]+$', rstr.letters())
