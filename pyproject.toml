@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=61.2", "wheel", "setuptools_scm[toml]>=3.4.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rstr"
+authors = [{name = "Leapfrog Direct Response LLC", email = "oss@leapfrogdevelopment.com"}]
+maintainers = [{name = "Brendan McCollam", email = "rstr@mccoll.am"}]
+description = "Generate random strings in Python"
+readme = "README.rst"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Topic :: Software Development :: Testing",
+]
+keywords = [
+    "random string",
+    "reverse regex",
+    "reverse regular expression",
+    "testing",
+    "fuzz testing",
+]
+urls = {Homepage = "https://github.com/leapfrogonline/rstr"}
+requires-python = ">=3.7"
+dynamic = ["version"]
+
+[tool.setuptools]
+package-dir = {}
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["rstr", "rstr.*"]
+
+[tool.setuptools_scm]
