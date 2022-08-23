@@ -34,7 +34,7 @@ class TestXeger(unittest.TestCase):
         assert re.match(pattern, self.rs.xeger(pattern))
 
     def test_literal_with_range_repeat(self) -> None:
-        pattern = r'A{2, 5}'
+        pattern = r'A{2,5}'
         assert re.match(pattern, self.rs.xeger(pattern))
 
     def test_word(self) -> None:
