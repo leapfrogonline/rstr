@@ -28,8 +28,8 @@ class Xeger(RstrBase):
     def __init__(
         self, _random: '_Random' = typing.cast('_Random', random), **custom_alphabets: str,
     ) -> None:
-        super(Xeger, self).__init__(_random, **custom_alphabets)
-        self._cache: Dict[str, str] = dict()
+        super().__init__(_random, **custom_alphabets)
+        self._cache: Dict[str, str] = {}
         self._categories: Mapping[str, Callable[[], str]] = {
             'category_digit': lambda: self._alphabets['digits'],
             'category_not_digit': lambda: self._alphabets['nondigits'],

@@ -92,7 +92,7 @@ ALPHABETS: Mapping[str, str] = {
 }
 
 
-class RstrBase(object):
+class RstrBase():
     '''Create random strings from a variety of alphabets.
 
     The alphabets for printable(), uppercase(), lowercase(), digits(), and
@@ -125,7 +125,7 @@ class RstrBase(object):
     '''
 
     def __init__(self, _random: '_Random', **custom_alphabets: str) -> None:
-        super(RstrBase, self).__init__()
+        super().__init__()
         self._random = _random
         self._alphabets = dict(ALPHABETS)
         for alpha_name, alphabet in custom_alphabets.items():
@@ -141,9 +141,8 @@ class RstrBase(object):
     def __getattr__(self, attr: str) -> '_PartialRstrFunc':
         if attr in self._alphabets:
             return partial(self.rstr, self._alphabets[attr])
-        else:
-            message = 'Rstr instance has no attribute: {0}'.format(attr)
-            raise AttributeError(message)
+        message = f'Rstr instance has no attribute: {attr}'
+        raise AttributeError(message)
 
     def sample_wr(self, population: Sequence[str], k: int) -> List[str]:
         '''Samples k random elements (with replacement) from a population'''
