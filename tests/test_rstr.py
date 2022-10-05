@@ -6,7 +6,7 @@ from rstr import Rstr, SameCharacterError
 
 
 def assert_matches(pattern: str, value: str) -> None:
-    errmsg = '{} does not match {}'.format(value, pattern)
+    errmsg = f'{value} does not match {pattern}'
     assert re.match(pattern, value), errmsg
 
 

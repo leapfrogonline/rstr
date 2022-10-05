@@ -18,7 +18,7 @@ class TestXeger(unittest.TestCase):
         See: https://bitbucket.org/leapfrogdevelopment/rstr/issue/1/
         '''
         pattern = r'.+'
-        for i in range(100):
+        for _ in range(100):
             assert re.match(pattern, self.rs.xeger(pattern))
 
     def test_digit(self) -> None:
