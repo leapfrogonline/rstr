@@ -1,5 +1,4 @@
 import random
-import sre_parse
 import string
 from itertools import chain
 import typing
@@ -9,6 +8,11 @@ from rstr.rstr_base import RstrBase
 
 if typing.TYPE_CHECKING:
     from rstr.rstr_base import _Random
+
+try:
+    import re._parser as sre_parse  # type: ignore[import]
+except ImportError:  # Python < 3.11
+    import sre_parse  # type: ignore[no-redef]
 
 
 # The * and + characters in a regular expression
