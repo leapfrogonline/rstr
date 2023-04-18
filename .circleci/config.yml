@@ -3,7 +3,7 @@ version: 2.1
 jobs:
     test:
         docker:
-            - image: mikicz/tox-base
+            - image: fpob/tox
         steps:
             - checkout
             - run:
