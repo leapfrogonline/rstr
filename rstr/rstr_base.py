@@ -31,30 +31,15 @@ import itertools
 import string
 from functools import partial
 import typing
-from typing import Any, Callable, Iterable, List, Mapping, MutableSequence, Optional, Sequence, TypeVar
+from typing import Iterable, List, Mapping, Optional, Sequence, TypeVar
 
 
 _T = TypeVar('_T')
 
 
 if typing.TYPE_CHECKING:
+    from random import Random
     from typing import Protocol
-
-    class _Random(Protocol):
-        """Partial interface of the random module needed for the rstr library."""
-
-        def randint(self, a: int, b: int) -> int:
-            ...
-
-        def choice(self, seq: Sequence[_T]) -> _T:
-            ...
-
-        def shuffle(
-            self,
-            x: MutableSequence[Any],
-            random: Optional[Callable[[], float]] = ...,
-        ) -> None:
-            ...
 
 
     class _PartialRstrFunc(Protocol):
@@ -124,7 +109,7 @@ class RstrBase():
 
     '''
 
-    def __init__(self, _random: '_Random', **custom_alphabets: str) -> None:
+    def __init__(self, _random: 'Random', **custom_alphabets: str) -> None:
         super().__init__()
         self._random = _random
         self._alphabets = dict(ALPHABETS)
