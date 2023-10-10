@@ -10,9 +10,9 @@ if typing.TYPE_CHECKING:
     from random import Random
 
 try:
-    import re._parser as sre_parse  # type: ignore[import]
+    import re._parser as sre_parse  # type: ignore[import-not-found]
 except ImportError:  # Python < 3.11
-    import sre_parse  # type: ignore[no-redef]
+    import sre_parse
 
 
 # The * and + characters in a regular expression
