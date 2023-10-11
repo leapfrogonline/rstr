@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 3.2.2
+
+- Removes type stubs for `random` to fix type-checking failures
+  under Python 3.11.
+
 ## 3.2.1
 
 - Fixes import failure under Python 3.11
