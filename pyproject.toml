@@ -28,7 +28,7 @@ keywords = [
     "fuzz testing",
 ]
 urls = {Homepage = "https://github.com/leapfrogonline/rstr"}
-requires-python = ">=3.7"
+requires-python = ">=3.8"
 dynamic = ["version"]
 
 [tool.setuptools]
