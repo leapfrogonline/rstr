@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Drops support for Python 3.7, adds support for Python 3.12.
+
 ## 3.2.2
 
 - Removes type stubs for `random` to fix type-checking failures
