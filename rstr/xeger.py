@@ -2,7 +2,7 @@ import random
 import string
 from itertools import chain
 import typing
-from typing import Any, Callable, Dict, Mapping, Pattern, Sequence, Union, Optional
+from typing import Any, Callable, Dict, Mapping, Pattern, Sequence, Union
 
 from rstr.rstr_base import RstrBase
 
