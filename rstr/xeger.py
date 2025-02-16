@@ -1,3 +1,4 @@
+import warnings
 import random
 import string
 from itertools import chain
@@ -99,7 +100,9 @@ class Xeger(RstrBase):
 
     def _handle_repeat(self, start_range: int, end_range: int, value: str) -> str:
         result = []
+        warnings.warn(f"end_range > {STAR_PLUS_LIMIT}.")
         end_range = min((end_range, STAR_PLUS_LIMIT))
+        start_range = min(start_range, end_range)
         times = self._random.randint(start_range, end_range)
         for i in range(times):
             result.append(''.join(self._handle_state(i) for i in value))
