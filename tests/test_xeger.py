@@ -106,3 +106,4 @@ class TestXeger(unittest.TestCase):
         pattern = r'\d{101,103}'
         ans = r'\d{100}'
         assert re.match(ans, self.rs.xeger(pattern))
+        
