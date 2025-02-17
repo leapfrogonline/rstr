@@ -96,3 +96,14 @@ class TestXeger(unittest.TestCase):
     def test_zero_or_more_non_greedy(self) -> None:
         pattern = r'a*?'
         assert re.match(pattern, self.rs.xeger(pattern))
+    
+    def test_handle_repeat_exceeds_limit(self) -> None:
+        pattern = r'\d{101}'
+        ans = r'\d{100}'
+        assert re.match(ans, self.rs.xeger(pattern))
+
+    def test_handle_repeat_exceeds_limit_with_range(self) -> None:
+        pattern = r'\d{101,103}'
+        ans = r'\d{100}'
+        assert re.match(ans, self.rs.xeger(pattern))
+        
