@@ -2,7 +2,7 @@ import random
 import string
 import typing
 from itertools import chain
-from re._constants import MAXREPEAT
+
 from typing import Any, Callable, Dict, Mapping, Pattern, Sequence, Union
 
 from rstr.rstr_base import RstrBase
@@ -12,8 +12,10 @@ if typing.TYPE_CHECKING:
 
 try:
     import re._parser as sre_parse  # type: ignore[import-not-found]
+    from re._constants import MAXREPEAT  # type: ignore[import-not-found]
 except ImportError:  # Python < 3.11
     import sre_parse
+    from sre_constants import MAXREPEAT
 
 
 class Xeger(RstrBase):
