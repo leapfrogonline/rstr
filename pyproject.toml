@@ -31,6 +31,13 @@ urls = {Homepage = "https://github.com/leapfrogonline/rstr"}
 requires-python = ">=3.8"
 dynamic = ["version"]
 
+[tool.ruff]
+extend-exclude = ["build"]
+line-length = 100
+
+[tool.ruff.format]
+quote-style = "single"
+
 [tool.setuptools]
 package-dir = {}
 include-package-data = true

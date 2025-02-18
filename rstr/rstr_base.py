@@ -41,17 +41,14 @@ if typing.TYPE_CHECKING:
     from random import Random
     from typing import Protocol
 
-
     class _PartialRstrFunc(Protocol):
-
         def __call__(
             self,
             start_range: Optional[int] = ...,
             end_range: Optional[int] = ...,
             include: str = ...,
             exclude: str = ...,
-        ) -> str:
-            ...
+        ) -> str: ...
 
 
 ALPHABETS: Mapping[str, str] = {
@@ -77,8 +74,8 @@ ALPHABETS: Mapping[str, str] = {
 }
 
 
-class RstrBase():
-    '''Create random strings from a variety of alphabets.
+class RstrBase:
+    """Create random strings from a variety of alphabets.
 
     The alphabets for printable(), uppercase(), lowercase(), digits(), and
     punctuation() are equivalent to the constants by those same names in the
@@ -107,7 +104,7 @@ class RstrBase():
     domainsafe() uses an alphabet of characters allowed in hostnames, and
     consequently, in internet domains: letters, digits, and the hyphen.
 
-    '''
+    """
 
     def __init__(self, _random: 'Random', **custom_alphabets: str) -> None:
         super().__init__()
@@ -117,10 +114,10 @@ class RstrBase():
             self.add_alphabet(alpha_name, alphabet)
 
     def add_alphabet(self, alpha_name: str, characters: str) -> None:
-        '''Add an additional alphabet to an Rstr instance and make it available
+        """Add an additional alphabet to an Rstr instance and make it available
         via method calls.
 
-        '''
+        """
         self._alphabets[alpha_name] = characters
 
     def __getattr__(self, attr: str) -> '_PartialRstrFunc':
@@ -130,7 +127,7 @@ class RstrBase():
         raise AttributeError(message)
 
     def sample_wr(self, population: Sequence[str], k: int) -> List[str]:
-        '''Samples k random elements (with replacement) from a population'''
+        """Samples k random elements (with replacement) from a population"""
         return [self._random.choice(population) for i in itertools.repeat(None, k)]
 
     def rstr(
@@ -141,7 +138,7 @@ class RstrBase():
         include: Sequence[str] = '',
         exclude: Sequence[str] = '',
     ) -> str:
-        '''Generate a random string containing elements from 'alphabet'
+        """Generate a random string containing elements from 'alphabet'
 
         By default, rstr() will return a string between 1 and 10 characters.
         You can specify a second argument to get an exact length of string.
@@ -155,12 +152,12 @@ class RstrBase():
         If you want to *prevent* certain characters from appearing, pass them
         as 'exclude'.
 
-        '''
+        """
         same_characters = set(include).intersection(exclude)
         if same_characters:
-            message = "include and exclude parameters contain same character{plural} ({characters})".format(
-                plural="s" if len(same_characters) > 1 else "",
-                characters=", ".join(same_characters)
+            message = 'include and exclude parameters contain same character{plural} ({characters})'.format(
+                plural='s' if len(same_characters) > 1 else '',
+                characters=', '.join(same_characters),
             )
             raise SameCharacterError(message)
 

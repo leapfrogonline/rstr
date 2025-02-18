@@ -33,9 +33,9 @@ class TestRstr(unittest.TestCase):
         assert_matches('^[ABC]*@[ABC]*$', self.rs.rstr('ABC', include='@'))
 
     def test_include_specific_length(self) -> None:
-        '''
+        """
         Verify including characters doesn't make the string longer than intended.
-        '''
+        """
         assert_matches('^[ABC@]{5}$', self.rs.rstr('ABC', 5, include='@'))
 
     def test_exclude(self) -> None:
@@ -49,11 +49,19 @@ class TestRstr(unittest.TestCase):
         for _ in range(0, 100):
             assert 'C' not in self.rs.rstr('ABC', exclude=['C'])
 
-    def test_raise_exception_if_include_and_exclude_parameters_contain_same_character(self) -> None:
-        with self.assertRaisesRegex(SameCharacterError, r"include and exclude parameters contain same character \(B\)"):
+    def test_raise_exception_if_include_and_exclude_parameters_contain_same_character(
+        self,
+    ) -> None:
+        with self.assertRaisesRegex(
+            SameCharacterError,
+            r'include and exclude parameters contain same character \(B\)',
+        ):
             self.rs.rstr('A', include='B', exclude='B')
             self.rs.rstr('A', include=['B'], exclude=['B'])
-        with self.assertRaisesRegex(SameCharacterError, r"include and exclude parameters contain same characters \(., .\)"):
+        with self.assertRaisesRegex(
+            SameCharacterError,
+            r'include and exclude parameters contain same characters \(., .\)',
+        ):
             self.rs.rstr('A', include='BC', exclude='BC')
 
 
