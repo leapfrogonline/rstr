@@ -17,12 +17,14 @@ except ImportError:  # Python < 3.11
 
 
 class Xeger(RstrBase):
-    '''Inspired by the Java library Xeger: http://code.google.com/p/xeger/
+    """Inspired by the Java library Xeger: http://code.google.com/p/xeger/
     This class adds functionality to Rstr allowing users to generate a
-    semi-random string from a regular expression.'''
+    semi-random string from a regular expression."""
 
     def __init__(
-        self, _random: 'Random' = typing.cast('Random', random), **custom_alphabets: str,
+        self,
+        _random: 'Random' = typing.cast('Random', random),
+        **custom_alphabets: str,
     ) -> None:
         super().__init__(_random, **custom_alphabets)
         self._cache: Dict[str, str] = {}
@@ -53,12 +55,8 @@ class Xeger(RstrBase):
             'negate': lambda x: [False],
         }
 
-    def xeger(
-        self,
-        string_or_regex: Union[str, Pattern[str]],
-        star_plus_limit: int = 100
-    ) -> str:
-        '''Generate a random string from a regular expression
+    def xeger(self, string_or_regex: Union[str, Pattern[str]], star_plus_limit: int = 100) -> str:
+        """Generate a random string from a regular expression
 
         By default, * and + metacharacters will generate a maximum of 100
         repetitions of the character or group of characters that they modify
@@ -66,7 +64,7 @@ class Xeger(RstrBase):
         argument to change this limit (note that the maximum amount of repeats
         in Python is 65535).
 
-        '''
+        """
         try:
             pattern = typing.cast(Pattern[str], string_or_regex).pattern
         except AttributeError:
@@ -106,10 +104,10 @@ class Xeger(RstrBase):
 
     def _handle_repeat(self, start_range: int, end_range: int, value: str) -> str:
         result = []
-        warnings.warn(f"end_range > {self.star_plus_limit}.")
+        warnings.warn(f'end_range > {self.star_plus_limit}.')
         end_range = min((end_range, self.star_plus_limit))
         start_range = min(start_range, end_range)
-        
+
         times = self._random.randint(start_range, end_range)
         for i in range(times):
             result.append(''.join(self._handle_state(i) for i in value))
