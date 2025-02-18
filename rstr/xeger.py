@@ -16,15 +16,6 @@ except ImportError:  # Python < 3.11
     import sre_parse
 
 
-# The * and + characters in a regular expression
-# match up to any number of repeats in theory,
-# (and actually 65535 repeats in python) but you
-# probably don't want that many repeats in your
-# generated strings. This sets an upper-bound on
-# repeats generated from + and * characters.
-STAR_PLUS_LIMIT = 100
-
-
 class Xeger(RstrBase):
     '''Inspired by the Java library Xeger: http://code.google.com/p/xeger/
     This class adds functionality to Rstr allowing users to generate a
@@ -62,11 +53,26 @@ class Xeger(RstrBase):
             'negate': lambda x: [False],
         }
 
-    def xeger(self, string_or_regex: Union[str, Pattern[str]]) -> str:
+    def xeger(
+        self,
+        string_or_regex: Union[str, Pattern[str]],
+        star_plus_limit: int = 100
+    ) -> str:
+        '''Generate a random string from a regular expression
+
+        By default, * and + metacharacters will generate a maximum of 100
+        repetitions of the character or group of characters that they modify
+        for each occurance in the regular expression. You can provide a second
+        argument to change this limit (note that the maximum amount of repeats
+        in Python is 65535).
+
+        '''
         try:
             pattern = typing.cast(Pattern[str], string_or_regex).pattern
         except AttributeError:
             pattern = typing.cast(str, string_or_regex)
+
+        self.star_plus_limit = star_plus_limit
 
         parsed = sre_parse.parse(pattern)
         result = self._build_string(parsed)
@@ -100,9 +106,10 @@ class Xeger(RstrBase):
 
     def _handle_repeat(self, start_range: int, end_range: int, value: str) -> str:
         result = []
-        warnings.warn(f"end_range > {STAR_PLUS_LIMIT}.")
-        end_range = min((end_range, STAR_PLUS_LIMIT))
+        warnings.warn(f"end_range > {self.star_plus_limit}.")
+        end_range = min((end_range, self.star_plus_limit))
         start_range = min(start_range, end_range)
+        
         times = self._random.randint(start_range, end_range)
         for i in range(times):
             result.append(''.join(self._handle_state(i) for i in value))
