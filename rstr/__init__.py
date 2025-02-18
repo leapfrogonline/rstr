@@ -1,5 +1,5 @@
-from rstr.xeger import Xeger
 from rstr.rstr_base import SameCharacterError as SameCharacterError
+from rstr.xeger import Xeger
 
 Rstr = Xeger
 _default_instance = Rstr()
