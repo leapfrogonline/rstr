@@ -29,10 +29,9 @@
 
 import itertools
 import string
-from functools import partial
 import typing
+from functools import partial
 from typing import Iterable, List, Mapping, Optional, Sequence, TypeVar
-
 
 _T = TypeVar('_T')
 

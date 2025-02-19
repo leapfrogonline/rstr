@@ -1,8 +1,8 @@
-import warnings
 import random
 import string
-from itertools import chain
 import typing
+from itertools import chain
+
 from typing import Any, Callable, Dict, Mapping, Pattern, Sequence, Union
 
 from rstr.rstr_base import RstrBase
@@ -12,8 +12,10 @@ if typing.TYPE_CHECKING:
 
 try:
     import re._parser as sre_parse  # type: ignore[import-not-found]
+    from re._constants import MAXREPEAT  # type: ignore[import-not-found]
 except ImportError:  # Python < 3.11
     import sre_parse
+    from sre_constants import MAXREPEAT
 
 
 class Xeger(RstrBase):
@@ -104,9 +106,8 @@ class Xeger(RstrBase):
 
     def _handle_repeat(self, start_range: int, end_range: int, value: str) -> str:
         result = []
-        warnings.warn(f'end_range > {self.star_plus_limit}.')
-        end_range = min((end_range, self.star_plus_limit))
-        start_range = min(start_range, end_range)
+        if end_range is MAXREPEAT:
+            end_range = self.star_plus_limit
 
         times = self._random.randint(start_range, end_range)
         for i in range(times):

@@ -1,6 +1,6 @@
+import random
 import re
 import unittest
-import random
 
 from rstr import Rstr, SameCharacterError
 

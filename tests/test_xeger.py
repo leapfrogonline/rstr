@@ -97,12 +97,24 @@ class TestXeger(unittest.TestCase):
         pattern = r'a*?'
         assert re.match(pattern, self.rs.xeger(pattern))
 
-    def test_handle_repeat_exceeds_limit(self) -> None:
-        pattern = r'\d{101}'
-        ans = r'\d{100}'
-        assert re.match(ans, self.rs.xeger(pattern))
+    def test_exact_repeat_exceeds_star_plus_limit(self) -> None:
+        pattern = r'\d{105}'
+        assert re.match(pattern, self.rs.xeger(pattern))
 
-    def test_handle_repeat_exceeds_limit_with_range(self) -> None:
-        pattern = r'\d{101,103}'
-        ans = r'\d{100}'
-        assert re.match(ans, self.rs.xeger(pattern))
+    def test_range_repeat_exceeds_star_plus_limit(self) -> None:
+        pattern = r'\d{102,105}'
+        assert re.match(pattern, self.rs.xeger(pattern))
+
+    def test_star_repeat_respects_limit(self) -> None:
+        pattern = r'a*'
+        for _ in range(100):
+            result = self.rs.xeger(pattern)
+            assert len(result) <= 100
+            assert re.match(pattern, result)
+
+    def test_plus_repeat_respects_limit(self) -> None:
+        pattern = r'b+'
+        for _ in range(100):
+            result = self.rs.xeger(pattern)
+            assert len(result) <= 100
+            assert re.match(pattern, result)
