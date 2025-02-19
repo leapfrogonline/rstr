@@ -1,6 +1,6 @@
-from rstr.rstr import Rstr as Rstr
+from rstr.rstr import Rstr
 from rstr.rstr import SameCharacterError as SameCharacterError
-from rstr.xeger import Xeger as Xeger
+from rstr.xeger import Xeger
 
 _default_xeger = Xeger()
 _default_rstr = Rstr()
