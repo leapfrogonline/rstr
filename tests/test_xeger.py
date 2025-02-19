@@ -1,12 +1,12 @@
 import re
 import unittest
 
-from rstr import Rstr
+from rstr import Xeger
 
 
 class TestXeger(unittest.TestCase):
     def setUp(self) -> None:
-        self.rs = Rstr()
+        self.rs = Xeger()
 
     def test_literals(self) -> None:
         pattern = r'foo'

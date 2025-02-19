@@ -31,7 +31,7 @@ import itertools
 import string
 import typing
 from functools import partial
-from random import Random
+from random import Random, SystemRandom
 from typing import Iterable, List, Mapping, Optional, Sequence, TypeVar
 
 _T = TypeVar('_T')
@@ -50,7 +50,7 @@ if typing.TYPE_CHECKING:
         ) -> str: ...
 
 
-ALPHABETS: Mapping[str, str] = {
+DEFAULT_ALPHABETS: dict[str, str] = {
     'printable': string.printable,
     'letters': string.ascii_letters,
     'uppercase': string.ascii_uppercase,
@@ -73,7 +73,7 @@ ALPHABETS: Mapping[str, str] = {
 }
 
 
-class RstrBase:
+class Rstr:
     """Create random strings from a variety of alphabets.
 
     The alphabets for printable(), uppercase(), lowercase(), digits(), and
@@ -105,10 +105,11 @@ class RstrBase:
 
     """
 
-    def __init__(self, _random: Random, **custom_alphabets: str) -> None:
-        super().__init__()
-        self._random = _random
-        self._alphabets = dict(ALPHABETS)
+    def __init__(
+        self, random: Random = SystemRandom(), **custom_alphabets: Mapping[str, str]
+    ) -> None:
+        self._random = random
+        self._alphabets = DEFAULT_ALPHABETS.copy()
         for alpha_name, alphabet in custom_alphabets.items():
             self.add_alphabet(alpha_name, alphabet)
 
