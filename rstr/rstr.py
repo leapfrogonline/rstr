@@ -32,7 +32,7 @@ import string
 import typing
 from functools import partial
 from random import Random, SystemRandom
-from typing import Iterable, List, Mapping, Optional, Sequence, TypeVar
+from typing import Iterable, List, Optional, Sequence, TypeVar
 
 _T = TypeVar('_T')
 
@@ -49,6 +49,8 @@ if typing.TYPE_CHECKING:
             exclude: str = ...,
         ) -> str: ...
 
+
+SYSTEM_RANDOM = SystemRandom()
 
 DEFAULT_ALPHABETS: dict[str, str] = {
     'printable': string.printable,
@@ -105,9 +107,7 @@ class Rstr:
 
     """
 
-    def __init__(
-        self, random: Random = SystemRandom(), **custom_alphabets: Mapping[str, str]
-    ) -> None:
+    def __init__(self, random: Random = SYSTEM_RANDOM, **custom_alphabets: str) -> None:
         self._random = random
         self._alphabets = DEFAULT_ALPHABETS.copy()
         for alpha_name, alphabet in custom_alphabets.items():
@@ -153,15 +153,13 @@ class Rstr:
         as 'exclude'.
 
         """
-        same_characters = set(include).intersection(exclude)
-        if same_characters:
-            message = 'include and exclude parameters contain same character{plural} ({characters})'.format(
-                plural='s' if len(same_characters) > 1 else '',
-                characters=', '.join(same_characters),
-            )
+        if same_characters := frozenset(include).intersection(exclude):
+            plural = 's' if len(same_characters) > 1 else ''
+            chars = ', '.join(same_characters)
+            message = f'include and exclude parameters contain same character{plural} ({chars})'
             raise SameCharacterError(message)
 
-        popul = [char for char in list(alphabet) if char not in list(exclude)]
+        popul = tuple(frozenset(alphabet).difference(exclude))
 
         if end_range is None:
             if start_range is None:

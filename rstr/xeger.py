@@ -11,12 +11,14 @@ except ImportError:  # Python < 3.11
     import sre_parse
     from sre_constants import MAXREPEAT
 
+SYSTEM_RANDOM = SystemRandom()
+
 
 class Xeger:
     """Inspired by the Java library Xeger: http://code.google.com/p/xeger/
     Allows users to generate a semi-random string from a regular expression."""
 
-    def __init__(self, random: Random = SystemRandom(), *, star_plus_limit: int = 100) -> None:
+    def __init__(self, random: Random = SYSTEM_RANDOM, *, star_plus_limit: int = 100) -> None:
         self._random = random
         self.star_plus_limit = star_plus_limit
         self._cache: dict[str, str] = {}
