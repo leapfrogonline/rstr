@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Default to use SystemRandom() CSPRNG
 - Expose star_plus_limit as a property on Xeger (#37)
 - Fix error when regex specified a repeat larger than the star_plus limit (#38)
 - Behavior change: explicit repeats (e.g. `a{1000}`) are not restricted by star_plus_limit

@@ -11,23 +11,6 @@ applications.
 
 It has no dependencies outside the standard library.
 
-A Word of Caution
------------------
-
-By default, rstr uses the Python ``random`` module to generate pseudorandom text. This module is based on the Mersenne Twister and is *not* cryptographically secure.
-
-**If you wish to use rstr for password-generation or other cryptographic
-applications, you must create an instance that uses** SystemRandom_.
-
-For example:
-
-::
-
-    >> from rstr import Rstr
-    >> from random import SystemRandom
-    >> rs = Rstr(SystemRandom())
-
-
 Use
 ---
 

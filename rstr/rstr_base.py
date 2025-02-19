@@ -31,13 +31,13 @@ import itertools
 import string
 import typing
 from functools import partial
+from random import Random
 from typing import Iterable, List, Mapping, Optional, Sequence, TypeVar
 
 _T = TypeVar('_T')
 
 
 if typing.TYPE_CHECKING:
-    from random import Random
     from typing import Protocol
 
     class _PartialRstrFunc(Protocol):
@@ -105,7 +105,7 @@ class RstrBase:
 
     """
 
-    def __init__(self, _random: 'Random', **custom_alphabets: str) -> None:
+    def __init__(self, _random: Random, **custom_alphabets: str) -> None:
         super().__init__()
         self._random = _random
         self._alphabets = dict(ALPHABETS)
