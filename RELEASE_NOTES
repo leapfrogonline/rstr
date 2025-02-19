@@ -7,7 +7,7 @@
 - Expose star_plus_limit as a property on Xeger (#37)
 - Fix error when regex specified a repeat larger than the star_plus limit (#38)
 - Behavior change: explicit repeats (e.g. `a{1000}`) are not restricted by star_plus_limit
-- Drops support for Python 3.7, adds support for Python 3.12.
+- Drops support for Pythons 3.7, 3.8, adds support for 3.12, 3.13.
 
 ## 3.2.2
 
