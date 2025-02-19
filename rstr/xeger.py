@@ -1,14 +1,10 @@
-import random
 import string
 import typing
 from itertools import chain
-
+from random import Random, SystemRandom
 from typing import Any, Callable, Dict, Mapping, Pattern, Sequence, Union
 
 from rstr.rstr_base import RstrBase
-
-if typing.TYPE_CHECKING:
-    from random import Random
 
 try:
     import re._parser as sre_parse  # type: ignore[import-not-found]
@@ -25,7 +21,7 @@ class Xeger(RstrBase):
 
     def __init__(
         self,
-        _random: 'Random' = typing.cast('Random', random),
+        _random: Random = SystemRandom(),
         **custom_alphabets: str,
     ) -> None:
         super().__init__(_random, **custom_alphabets)
