@@ -2,9 +2,7 @@ import string
 import typing
 from itertools import chain
 from random import Random, SystemRandom
-from typing import Any, Callable, Dict, Mapping, Pattern, Sequence, Union
-
-from rstr.rstr_base import RstrBase
+from typing import Any, Callable, Mapping, Pattern, Sequence, Union
 
 try:
     import re._parser as sre_parse  # type: ignore[import-not-found]
@@ -13,36 +11,35 @@ except ImportError:  # Python < 3.11
     import sre_parse
     from sre_constants import MAXREPEAT
 
+SYSTEM_RANDOM = SystemRandom()
 
-class Xeger(RstrBase):
+
+class Xeger:
     """Inspired by the Java library Xeger: http://code.google.com/p/xeger/
-    This class adds functionality to Rstr allowing users to generate a
-    semi-random string from a regular expression."""
+    Allows users to generate a semi-random string from a regular expression."""
 
-    def __init__(
-        self,
-        _random: Random = SystemRandom(),
-        **custom_alphabets: str,
-    ) -> None:
-        super().__init__(_random, **custom_alphabets)
-        self._cache: Dict[str, str] = {}
-        self._categories: Mapping[str, Callable[[], str]] = {
-            'category_digit': lambda: self._alphabets['digits'],
-            'category_not_digit': lambda: self._alphabets['nondigits'],
-            'category_space': lambda: self._alphabets['whitespace'],
-            'category_not_space': lambda: self._alphabets['nonwhitespace'],
-            'category_word': lambda: self._alphabets['word'],
-            'category_not_word': lambda: self._alphabets['nonword'],
+    def __init__(self, random: Random = SYSTEM_RANDOM, *, star_plus_limit: int = 100) -> None:
+        self._random = random
+        self.star_plus_limit = star_plus_limit
+        self._cache: dict[str, str] = {}
+        _wordchars = string.ascii_letters + string.digits + '_'
+        self._categories: dict[str, str] = {
+            'category_digit': string.digits,
+            'category_not_digit': string.ascii_letters + string.punctuation,
+            'category_space': string.whitespace,
+            'category_not_space': string.printable.strip(),
+            'category_word': _wordchars,
+            'category_not_word': ''.join(set(string.printable).difference(_wordchars)),
         }
-
+        _any_but_newline = ''.join(string.printable.split('\n'))
         self._cases: Mapping[str, Callable[..., Any]] = {
             'literal': lambda x: chr(x),
             'not_literal': lambda x: self._random.choice(string.printable.replace(chr(x), '')),
             'at': lambda x: '',
             'in': lambda x: self._handle_in(x),
-            'any': lambda x: self.printable(1, exclude='\n'),
+            'any': lambda x: self._random.choice(_any_but_newline),
             'range': lambda x: [chr(i) for i in range(x[0], x[1] + 1)],
-            'category': lambda x: self._categories[x](),
+            'category': lambda x: self._categories[x],
             'branch': lambda x: ''.join(self._handle_state(i) for i in self._random.choice(x[1])),
             'subpattern': lambda x: self._handle_group(x),
             'assert': lambda x: ''.join(self._handle_state(i) for i in x[1]),
@@ -53,7 +50,7 @@ class Xeger(RstrBase):
             'negate': lambda x: [False],
         }
 
-    def xeger(self, string_or_regex: Union[str, Pattern[str]], star_plus_limit: int = 100) -> str:
+    def xeger(self, string_or_regex: Union[str, Pattern[str]]) -> str:
         """Generate a random string from a regular expression
 
         By default, * and + metacharacters will generate a maximum of 100
@@ -67,8 +64,6 @@ class Xeger(RstrBase):
             pattern = typing.cast(Pattern[str], string_or_regex).pattern
         except AttributeError:
             pattern = typing.cast(str, string_or_regex)
-
-        self.star_plus_limit = star_plus_limit
 
         parsed = sre_parse.parse(pattern)
         result = self._build_string(parsed)

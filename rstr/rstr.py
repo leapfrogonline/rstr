@@ -31,8 +31,8 @@ import itertools
 import string
 import typing
 from functools import partial
-from random import Random
-from typing import Iterable, List, Mapping, Optional, Sequence, TypeVar
+from random import Random, SystemRandom
+from typing import Iterable, List, Optional, Sequence, TypeVar
 
 _T = TypeVar('_T')
 
@@ -50,7 +50,9 @@ if typing.TYPE_CHECKING:
         ) -> str: ...
 
 
-ALPHABETS: Mapping[str, str] = {
+SYSTEM_RANDOM = SystemRandom()
+
+DEFAULT_ALPHABETS: dict[str, str] = {
     'printable': string.printable,
     'letters': string.ascii_letters,
     'uppercase': string.ascii_uppercase,
@@ -73,7 +75,7 @@ ALPHABETS: Mapping[str, str] = {
 }
 
 
-class RstrBase:
+class Rstr:
     """Create random strings from a variety of alphabets.
 
     The alphabets for printable(), uppercase(), lowercase(), digits(), and
@@ -105,10 +107,9 @@ class RstrBase:
 
     """
 
-    def __init__(self, _random: Random, **custom_alphabets: str) -> None:
-        super().__init__()
-        self._random = _random
-        self._alphabets = dict(ALPHABETS)
+    def __init__(self, random: Random = SYSTEM_RANDOM, **custom_alphabets: str) -> None:
+        self._random = random
+        self._alphabets = DEFAULT_ALPHABETS.copy()
         for alpha_name, alphabet in custom_alphabets.items():
             self.add_alphabet(alpha_name, alphabet)
 
@@ -152,15 +153,13 @@ class RstrBase:
         as 'exclude'.
 
         """
-        same_characters = set(include).intersection(exclude)
-        if same_characters:
-            message = 'include and exclude parameters contain same character{plural} ({characters})'.format(
-                plural='s' if len(same_characters) > 1 else '',
-                characters=', '.join(same_characters),
-            )
+        if same_characters := frozenset(include).intersection(exclude):
+            plural = 's' if len(same_characters) > 1 else ''
+            chars = ', '.join(same_characters)
+            message = f'include and exclude parameters contain same character{plural} ({chars})'
             raise SameCharacterError(message)
 
-        popul = [char for char in list(alphabet) if char not in list(exclude)]
+        popul = tuple(frozenset(alphabet).difference(exclude))
 
         if end_range is None:
             if start_range is None:

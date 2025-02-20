@@ -1,29 +1,30 @@
-from rstr.rstr_base import SameCharacterError as SameCharacterError
+from rstr.rstr import Rstr
+from rstr.rstr import SameCharacterError as SameCharacterError
 from rstr.xeger import Xeger
 
-Rstr = Xeger
-_default_instance = Rstr()
+_default_xeger = Xeger()
+_default_rstr = Rstr()
 
-rstr = _default_instance.rstr
-xeger = _default_instance.xeger
+rstr = _default_rstr.rstr
+xeger = _default_xeger.xeger
 
 
 # This allows convenience methods from rstr to be accessed at the package
 # level, without requiring the user to instantiate an Rstr() object.
-printable = _default_instance.printable
-letters = _default_instance.letters
-uppercase = _default_instance.uppercase
-lowercase = _default_instance.lowercase
-digits = _default_instance.digits
-punctuation = _default_instance.punctuation
-nondigits = _default_instance.nondigits
-nonletters = _default_instance.nonletters
-whitespace = _default_instance.whitespace
-nonwhitespace = _default_instance.nonwhitespace
-normal = _default_instance.normal
-word = _default_instance.word
-nonword = _default_instance.nonword
-unambiguous = _default_instance.unambiguous
-postalsafe = _default_instance.postalsafe
-urlsafe = _default_instance.urlsafe
-domainsafe = _default_instance.domainsafe
+printable = _default_rstr.printable
+letters = _default_rstr.letters
+uppercase = _default_rstr.uppercase
+lowercase = _default_rstr.lowercase
+digits = _default_rstr.digits
+punctuation = _default_rstr.punctuation
+nondigits = _default_rstr.nondigits
+nonletters = _default_rstr.nonletters
+whitespace = _default_rstr.whitespace
+nonwhitespace = _default_rstr.nonwhitespace
+normal = _default_rstr.normal
+word = _default_rstr.word
+nonword = _default_rstr.nonword
+unambiguous = _default_rstr.unambiguous
+postalsafe = _default_rstr.postalsafe
+urlsafe = _default_rstr.urlsafe
+domainsafe = _default_rstr.domainsafe
