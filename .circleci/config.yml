@@ -3,19 +3,14 @@ version: 2.1
 jobs:
     test:
         docker:
-            - image: cimg/base:current
+            - image: cimg/python:3.13
         steps:
             - checkout
             - run:
-                name: Install uv
-                command: curl -LsSf https://astral.sh/uv/install.sh | sh
-            - run:
                 name: Run tox
-                # tox-uv lets uv provide every interpreter, including the
-                # Python 3.16 pre-release, so there is nothing to preinstall
-                command: |
-                    export PATH="$HOME/.local/bin:$PATH"
-                    uvx --with tox-uv tox
+                # cimg/python bundles uv; tox-uv provides the other
+                # interpreters, including the Python 3.16 pre-release
+                command: uvx --with tox-uv tox
 
 workflows:
     test:
