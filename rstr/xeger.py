@@ -1,7 +1,9 @@
 import string
 import typing
+from collections.abc import Callable, Mapping, Sequence
 from random import Random, SystemRandom
-from typing import Any, Callable, Mapping, Pattern, Sequence, Union
+from re import Pattern
+from typing import Any
 
 try:
     import re._parser as sre_parse  # type: ignore[import-not-found]
@@ -49,7 +51,7 @@ class Xeger:
             'negate': lambda x: [False],
         }
 
-    def xeger(self, string_or_regex: Union[str, Pattern[str]]) -> str:
+    def xeger(self, string_or_regex: str | Pattern[str]) -> str:
         """Generate a random string from a regular expression
 
         By default, * and + metacharacters will generate a maximum of 100
