@@ -14,8 +14,6 @@ classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
     "Operating System :: OS Independent",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
@@ -29,7 +27,7 @@ keywords = [
     "fuzz testing",
 ]
 urls = {Homepage = "https://github.com/leapfrogonline/rstr"}
-requires-python = ">=3.8"
+requires-python = ">=3.11"
 dynamic = ["version"]
 
 [tool.ruff]
