@@ -2,12 +2,14 @@
 
 ## Unreleased
 
+## 4.0.0
+
 - Refactor: Xeger and Rstr are distinct, Xeger no longer inherits from XegerBase
 - Default to use SystemRandom() CSPRNG
 - Expose star_plus_limit as a property on Xeger (#37)
 - Fix error when regex specified a repeat larger than the star_plus limit (#38)
 - Behavior change: explicit repeats (e.g. `a{1000}`) are not restricted by star_plus_limit
-- Drops support for Pythons 3.7, 3.8, adds support for 3.12, 3.13.
+- Drops support for Pythons 3.7, 3.8, 3.9, 3.10 adds support for 3.12, 3.13, 3.14, 3.15, 3.16.
 
 ## 3.2.2
 
