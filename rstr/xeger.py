@@ -1,8 +1,9 @@
 import string
 import typing
-from itertools import chain
+from collections.abc import Callable, Mapping, Sequence
 from random import Random, SystemRandom
-from typing import Any, Callable, Mapping, Pattern, Sequence, Union
+from re import Pattern
+from typing import Any
 
 try:
     import re._parser as sre_parse  # type: ignore[import-not-found]
@@ -50,7 +51,7 @@ class Xeger:
             'negate': lambda x: [False],
         }
 
-    def xeger(self, string_or_regex: Union[str, Pattern[str]]) -> str:
+    def xeger(self, string_or_regex: str | Pattern[str]) -> str:
         """Generate a random string from a regular expression
 
         By default, * and + metacharacters will generate a maximum of 100
@@ -79,8 +80,10 @@ class Xeger:
     def _handle_state(self, state: Any) -> Any:
         opcode, value = state
         opcode = opcode.name.lower()
-        if opcode == 'category':
-            value = value.name.lower()
+        # Python 3.16 parses a single-member class as a bare CATEGORY/RANGE
+        # atom, so route it through _handle_in to get a single character
+        if opcode in ('category', 'range'):
+            return self._handle_in([state])
         return self._cases[opcode](value)
 
     def _handle_group(self, value: Sequence[Any]) -> str:
@@ -90,8 +93,20 @@ class Xeger:
         return result
 
     def _handle_in(self, value: Any) -> Any:
-        candidates = list(chain(*(self._handle_state(i) for i in value)))
-        if candidates[0] is False:
+        # Expand set members here so a bare CATEGORY/RANGE atom still yields
+        # one character in _handle_state
+        candidates: list[Any] = []
+        for state in value:
+            opcode = state[0].name.lower()
+            if opcode == 'category':
+                candidates.extend(self._categories[state[1].name.lower()])
+            elif opcode == 'range':
+                candidates.extend(chr(i) for i in range(state[1][0], state[1][1] + 1))
+            elif opcode == 'negate':
+                candidates.append(False)
+            else:
+                candidates.extend(self._handle_state(state))
+        if candidates and candidates[0] is False:
             candidates = list(set(string.printable).difference(candidates[1:]))
         return self._random.choice(candidates)
 

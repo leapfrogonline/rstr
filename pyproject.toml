@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61.2", "wheel", "setuptools_scm[toml]>=3.4.3"]
+requires = ["setuptools>=77", "wheel", "setuptools_scm[toml]>=3.4.3"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -8,13 +8,12 @@ authors = [{name = "Leapfrog Direct Response LLC", email = "oss@leapfrogdevelopm
 maintainers = [{name = "Brendan McCollam", email = "rstr@mccoll.am"}]
 description = "Generate random strings in Python"
 readme = "README.rst"
+license = "BSD-3-Clause"
+license-files = ["LICENSE.txt"]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: BSD License",
     "Operating System :: OS Independent",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
@@ -28,7 +27,7 @@ keywords = [
     "fuzz testing",
 ]
 urls = {Homepage = "https://github.com/leapfrogonline/rstr"}
-requires-python = ">=3.8"
+requires-python = ">=3.11"
 dynamic = ["version"]
 
 [tool.ruff]

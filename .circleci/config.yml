@@ -3,12 +3,19 @@ version: 2.1
 jobs:
     test:
         docker:
-            - image: fpob/tox
+            - image: cimg/base:current
         steps:
             - checkout
             - run:
-                name: Run tests
-                command: tox
+                name: Install uv
+                command: curl -LsSf https://astral.sh/uv/install.sh | sh
+            - run:
+                name: Run tox
+                # tox-uv lets uv provide every interpreter, including the
+                # Python 3.16 pre-release, so there is nothing to preinstall
+                command: |
+                    export PATH="$HOME/.local/bin:$PATH"
+                    uvx --with tox-uv tox
 
 workflows:
     test:

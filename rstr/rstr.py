@@ -30,9 +30,10 @@
 import itertools
 import string
 import typing
+from collections.abc import Iterable, Sequence
 from functools import partial
 from random import Random, SystemRandom
-from typing import Iterable, List, Optional, Sequence, TypeVar
+from typing import TypeVar
 
 _T = TypeVar('_T')
 
@@ -43,8 +44,8 @@ if typing.TYPE_CHECKING:
     class _PartialRstrFunc(Protocol):
         def __call__(
             self,
-            start_range: Optional[int] = ...,
-            end_range: Optional[int] = ...,
+            start_range: int | None = ...,
+            end_range: int | None = ...,
             include: str = ...,
             exclude: str = ...,
         ) -> str: ...
@@ -126,15 +127,15 @@ class Rstr:
         message = f'Rstr instance has no attribute: {attr}'
         raise AttributeError(message)
 
-    def sample_wr(self, population: Sequence[str], k: int) -> List[str]:
+    def sample_wr(self, population: Sequence[str], k: int) -> list[str]:
         """Samples k random elements (with replacement) from a population"""
         return [self._random.choice(population) for i in itertools.repeat(None, k)]
 
     def rstr(
         self,
         alphabet: Iterable[str],
-        start_range: Optional[int] = None,
-        end_range: Optional[int] = None,
+        start_range: int | None = None,
+        end_range: int | None = None,
         include: Sequence[str] = '',
         exclude: Sequence[str] = '',
     ) -> str:
