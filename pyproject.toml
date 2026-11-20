@@ -51,6 +51,7 @@ select = [
 ]
 
 [tool.tox]
+requires = ["tox>=4", "tox-uv>=1"]
 env_list = [
     "pypy311",
     "pypy312",
