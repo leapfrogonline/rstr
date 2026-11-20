@@ -6,3 +6,5 @@ dist/*
 .tox/*
 .env/*
 .credentials/*
+build/*
+uv.lock
