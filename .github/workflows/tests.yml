@@ -6,6 +6,7 @@ on:
       - master
   pull_request:
   workflow_dispatch:
+  workflow_call:
 
 permissions:
   contents: read
@@ -24,4 +25,4 @@ jobs:
         with:
           enable-cache: true
       - name: Run tox
-        run: uvx --with tox-uv tox
+        run: uvx tox

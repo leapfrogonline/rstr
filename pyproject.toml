@@ -1,6 +1,6 @@
 [build-system]
-requires = ["flit_core >=3.11,<5"]
-build-backend = "flit_core.buildapi"
+requires = ["setuptools>=77", "setuptools_scm[toml]>=8"]
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "rstr"
@@ -31,7 +31,7 @@ keywords = [
 ]
 urls = {Homepage = "https://github.com/leapfrogonline/rstr"}
 requires-python = ">=3.11"
-version = "4.0.1"
+dynamic = ["version"]
 
 [tool.ruff]
 extend-exclude = ["build"]
@@ -49,3 +49,43 @@ select = [
     "SIM",# flake8-simplify
     "I",  # isort
 ]
+
+[tool.tox]
+requires = ["tox>=4", "tox-uv>=1"]
+env_list = [
+    "pypy311",
+    "pypy312",
+    "py311",
+    "py312",
+    "py313",
+    "py314",
+    "py315",
+    "py316",
+    "linting",
+    "typing",
+]
+
+[tool.tox.env_run_base]
+package = "skip"
+commands = [["python", "-m", "unittest", { replace = "posargs", extend = true }]]
+
+[tool.tox.env.linting]
+deps = ["ruff>=0.9.6", "validate-pyproject[all]"]
+commands = [
+    ["ruff", "format", "--check"],
+    ["ruff", "check"],
+    ["validate-pyproject", "pyproject.toml"],
+]
+
+[tool.tox.env.typing]
+deps = ["mypy>=1.6.0,<2"]
+commands = [["mypy", "--strict", { replace = "posargs", default = ["rstr"], extend = true }]]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["rstr", "rstr.*"]
+
+[tool.setuptools_scm]
+local_scheme = "no-local-version"
