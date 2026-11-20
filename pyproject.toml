@@ -7,7 +7,7 @@ name = "rstr"
 authors = [{name = "Leapfrog Direct Response LLC", email = "oss@leapfrogdevelopment.com"}]
 maintainers = [{name = "Brendan McCollam", email = "rstr@mccoll.am"}]
 description = "Generate random strings in Python"
-readme = "README.rst"
+readme = "README.md"
 license = "BSD-3-Clause"
 license-files = ["LICENSE.txt"]
 classifiers = [
