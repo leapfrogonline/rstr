@@ -49,3 +49,33 @@ select = [
     "SIM",# flake8-simplify
     "I",  # isort
 ]
+
+[tool.tox]
+env_list = [
+    "pypy311",
+    "pypy312",
+    "py311",
+    "py312",
+    "py313",
+    "py314",
+    "py315",
+    "py316",
+    "linting",
+    "typing",
+]
+
+[tool.tox.env_run_base]
+package = "skip"
+commands = [["python", "-m", "unittest", { replace = "posargs", extend = true }]]
+
+[tool.tox.env.linting]
+deps = ["ruff>=0.9.6", "validate-pyproject[all]"]
+commands = [
+    ["ruff", "format", "--check"],
+    ["ruff", "check"],
+    ["validate-pyproject", "pyproject.toml"],
+]
+
+[tool.tox.env.typing]
+deps = ["mypy>=1.6.0,<2"]
+commands = [["mypy", "--strict", { replace = "posargs", default = ["rstr"], extend = true }]]
