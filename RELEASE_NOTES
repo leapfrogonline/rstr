@@ -2,8 +2,8 @@
 
 ## Unreleased
 
-- Build with `flit_core`; the version is now declared statically in `pyproject.toml` and must be bumped as part of each release.
-- CI moved from CircleCI to GitHub Actions.
+- CI moved from CircleCI to GitHub Actions, and releases are published from GitHub Actions with PyPI trusted publishing.
+- The sdist no longer includes the test suite.
 
 ## 4.0.0
 
