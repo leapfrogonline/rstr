@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Move CI to GitHub Actions, publish releases from GitHub Actions with PyPI trusted publishing.
+
 ## 4.0.0
 
 - Refactor: Xeger and Rstr are distinct, Xeger no longer inherits from XegerBase

@@ -6,3 +6,7 @@ dist/*
 .tox/*
 .env/*
 .credentials/*
+build/*
+uv.lock
+notes_for_me
+
