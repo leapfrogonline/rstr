@@ -1,7 +1,3 @@
-[build-system]
-requires = ["setuptools>=77", "setuptools_scm[toml]>=8"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "rstr"
 authors = [{name = "Leapfrog Direct Response LLC", email = "oss@leapfrogdevelopment.com"}]
@@ -80,6 +76,10 @@ commands = [
 [tool.tox.env.typing]
 deps = ["mypy>=1.6.0,<2"]
 commands = [["mypy", "--strict", { replace = "posargs", default = ["rstr"], extend = true }]]
+
+[build-system]
+requires = ["setuptools>=77", "setuptools_scm[toml]>=8"]
+build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
 include-package-data = true
