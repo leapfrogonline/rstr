@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- CI moved from CircleCI to GitHub Actions, and releases are published from GitHub Actions with PyPI trusted publishing.
+- The sdist no longer includes the test suite.
+
 ## 4.0.0
 
 - Refactor: Xeger and Rstr are distinct, Xeger no longer inherits from XegerBase

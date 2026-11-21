@@ -1,2 +1,3 @@
 include LICENSE.txt
 include rstr/py.typed
+prune .github
