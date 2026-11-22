@@ -29,17 +29,15 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - name: Set up Python
-        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+      - name: Set up uv
+        uses: astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d # v10.4.0
         with:
-          python-version: "3.13"
-      - name: Install pypa/build
-        run: python3 -m pip install build
+          enable-cache: true
       - name: Build a wheel and a source distribution
-        run: python3 -m build
+        run: uv build
       - name: Refuse to publish a development version
         if: inputs.verify-release
-        run: python3 .github/scripts/no_dev.py
+        run: uv run --group build python .github/scripts/no_dev.py
       - name: Store the distribution packages
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:

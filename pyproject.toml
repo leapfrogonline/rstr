@@ -29,6 +29,11 @@ urls = {Homepage = "https://github.com/leapfrogonline/rstr"}
 requires-python = ">=3.11"
 dynamic = ["version"]
 
+[dependency-groups]
+lint = ["ruff>=0.9.6", "validate-pyproject[all]>=0.24"]
+typing = ["mypy>=1.6.0"]
+build = ["build>=1.2.2", "packaging>=24.2"]
+
 [tool.ruff]
 extend-exclude = ["build"]
 line-length = 100
@@ -66,7 +71,7 @@ package = "skip"
 commands = [["python", "-m", "unittest", { replace = "posargs", extend = true }]]
 
 [tool.tox.env.linting]
-deps = ["ruff>=0.9.6", "validate-pyproject[all]"]
+dependency_groups = ["lint"]
 commands = [
     ["ruff", "format", "--check"],
     ["ruff", "check"],
@@ -74,7 +79,7 @@ commands = [
 ]
 
 [tool.tox.env.typing]
-deps = ["mypy>=1.6.0,<2"]
+dependency_groups = ["typing"]
 commands = [["mypy", "--strict", { replace = "posargs", default = ["rstr"], extend = true }]]
 
 [build-system]

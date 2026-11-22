@@ -1,16 +1,11 @@
+import re._parser as sre_parse  # type: ignore[import-not-found]
 import string
 import typing
 from collections.abc import Callable, Mapping, Sequence
 from random import Random, SystemRandom
 from re import Pattern
+from re._constants import MAXREPEAT  # type: ignore[import-not-found]
 from typing import Any
-
-try:
-    import re._parser as sre_parse  # type: ignore[import-not-found]
-    from re._constants import MAXREPEAT  # type: ignore[import-not-found]
-except ImportError:  # Python < 3.11
-    import sre_parse
-    from sre_constants import MAXREPEAT
 
 SYSTEM_RANDOM = SystemRandom()
 
