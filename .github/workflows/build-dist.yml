@@ -39,19 +39,7 @@ jobs:
         run: python3 -m build
       - name: Refuse to publish a development version
         if: inputs.verify-release
-        run: |
-          python3 - <<'PY'
-          import glob
-          import sys
-
-          from packaging.utils import parse_wheel_filename
-
-          wheel = glob.glob('dist/*.whl')[0].rsplit('/', 1)[-1]
-          version = parse_wheel_filename(wheel)[1]
-          if version.dev is not None:
-              sys.exit(f'refusing to publish development version {version}')
-          print(f'publishing {version}')
-          PY
+        run: python3 .github/scripts/no_dev.py
       - name: Store the distribution packages
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
