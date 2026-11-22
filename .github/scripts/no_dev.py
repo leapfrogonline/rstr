@@ -1,23 +1,30 @@
 import glob
+import re
 import sys
 
-from packaging.utils import parse_wheel_filename
+RELEASE = re.compile(r'^\d+\.\d+\.\d+$')
 
 
 def main() -> int:
-    wheels = glob.glob('dist/*.whl')
-    if not wheels:
-        print('::error::no wheel found in dist/')
+    distributions = glob.glob('dist/*.whl') + glob.glob('dist/*.tar.gz')
+    if not distributions:
+        print('::error::no distributions found in dist/')
         return 1
 
-    wheel = wheels[0].rsplit('/', 1)[-1]
-    version = parse_wheel_filename(wheel)[1]
-    if version.dev is not None:
-        print(f'::error::refusing to publish development version {version}')
-        return 1
+    status = 0
+    for path in sorted(distributions):
+        filename = path.rsplit('/', 1)[-1]
+        stem = filename.removesuffix('.whl').removesuffix('.tar.gz')
+        parts = stem.split('-')
+        version = parts[1] if len(parts) > 1 else ''
+        if not RELEASE.fullmatch(version):
+            print(f'::error::refusing to publish {filename}: version {version!r} is not a release')
+            status = 1
+            continue
 
-    print(f'publishing {version}')
-    return 0
+        print(f'publishing {filename}')
+
+    return status
 
 
 if __name__ == '__main__':

@@ -32,7 +32,6 @@ dynamic = ["version"]
 [dependency-groups]
 lint = ["ruff>=0.9.6", "validate-pyproject[all]>=0.24"]
 typing = ["mypy>=1.6.0"]
-build = ["build>=1.2.2", "packaging>=24.2"]
 
 [tool.ruff]
 extend-exclude = ["build"]
